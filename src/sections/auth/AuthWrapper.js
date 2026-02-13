@@ -23,7 +23,34 @@ const AuthWrapper = ({ children }) => (
       }}
     >
       <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
-        <img src="/assets/images/logoalltheai.png" alt="logo" width="150" />
+        <Box display="flex" alignItems="center" gap={1}>
+          <img
+            src="/assets/images/logoiconalltheai.png"
+            alt="logo icon"
+            width={32}
+            height={32}
+          />
+          <Box
+            component="span"
+            sx={{
+              fontSize: 24,
+              fontWeight: 700,
+              letterSpacing: '0.5px'
+            }}
+          >
+            content
+            <Box
+              component="span"
+              sx={{
+                background: 'linear-gradient(90deg, #7B3FE4, #B983FF)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              IQ
+            </Box>
+          </Box>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Grid

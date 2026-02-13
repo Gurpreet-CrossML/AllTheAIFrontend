@@ -13,7 +13,7 @@ export const APP_DEFAULT_PATH = '/auth/login';
 export const DASHBOARD_PAGE = "/dashboard";
 export const HORIZONTAL_MAX_ITEM = 6;
 export const DRAWER_WIDTH = 260;
-export const ALLTHEAI = "ALLTHEAI";
+export const ALLTHEAI = "contentIQ";
 
 // API URL
 

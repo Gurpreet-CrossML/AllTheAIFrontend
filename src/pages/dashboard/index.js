@@ -468,7 +468,7 @@ const getActivePlan = async () => {
                     </AvatarGroup>
                     </Grid>
                 </Grid>
-                <Button component="a" href="mailto:info@allthe.aicom" size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
+                <Button component="a" href="mailto:support@crossml.com" size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
                     Need Help?
                 </Button>
                 </Stack>
