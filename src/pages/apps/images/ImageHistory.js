@@ -12,44 +12,41 @@ import { CustomDataGrid } from 'utils/helper';
 import { GridToolbarContainer, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { error429 } from 'pages/maintenance/ErrorMessage';
 
-
 const ImageHistory = () => {
   const navigate = useNavigate();
   const [imageHistory, setImageHistory] = useState([]);
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const[rateLimit, setRateLimit] = useState(false);
+  const [rateLimit, setRateLimit] = useState(false);
 
-    /** 
-     * Added Page title and Retrieve Images from the Server 
-     */
-    useEffect(() => {
-        document.title = `Images History | ${ALLTHEAI}`;
-        retrieveImage();
-    }, []);
+  /**
+   * Added Page title and Retrieve Images from the Server
+   */
+  useEffect(() => {
+    document.title = `Images History | ${ALLTHEAI}`;
+    retrieveImage();
+  }, []);
 
-/**
- * @method [retrieveImage] use to retrieve image
- */
-const retrieveImage = async () => {
-  try {
-    setIsLoading(true);
-    const response = await generateImagesList();
-    setIsLoading(false);
-    setImageHistory(response.data.data.results);
-    setCount(response?.data?.data?.count);
-  } catch (error) {
-    setIsLoading(false);
-     if (error.response.status === 429) { 
-      setRateLimit(true);
-      toast(error429, {
-        variant: 'error'
-      });
+  /**
+   * @method [retrieveImage] use to retrieve image
+   */
+  const retrieveImage = async () => {
+    try {
+      setIsLoading(true);
+      const response = await generateImagesList();
+      setIsLoading(false);
+      setImageHistory(response.data.data.results);
+      setCount(response?.data?.data?.count);
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response.status === 429) {
+        setRateLimit(true);
+        toast(error429, {
+          variant: 'error'
+        });
+      }
     }
-  }
-};
-
-
+  };
 
   const columns = [
     {
@@ -116,84 +113,80 @@ const retrieveImage = async () => {
     }
   ];
 
- /**
- * @method [onFilterChange] to handle the
- * @param {Object} value
- */
-const onFilterChange = async (value) => {
-  try {
-    const searchText = value.quickFilterValues.length > 0 ? value.quickFilterValues : '';
-    const res = await filterChange(searchText);
+  /**
+   * @method [onFilterChange] to handle the
+   * @param {Object} value
+   */
+  const onFilterChange = async (value) => {
+    try {
+      const searchText = value.quickFilterValues.length > 0 ? value.quickFilterValues : '';
+      const res = await filterChange(searchText);
 
-    if (res?.data?.data.results?.length > 0) {
-      const arrItems = res?.data?.data?.results;
-      setImageHistory(arrItems);
-      setCount(res.data.data.count);
-    } else {
-      setImageHistory(res?.data?.data?.results);
+      if (res?.data?.data.results?.length > 0) {
+        const arrItems = res?.data?.data?.results;
+        setImageHistory(arrItems);
+        setCount(res.data.data.count);
+      } else {
+        setImageHistory(res?.data?.data?.results);
+      }
+    } catch (error) {
+      if (error.response.status === 429) {
+        toast(error429, {
+          variant: 'error'
+        });
+      } else {
+        toast.error(error?.response?.data.message);
+      }
     }
-  } catch (error) {
-    if (error.response.status === 429) {
-      toast(error429, {
-        variant: 'error'
-      });
-  }
-  else {
-    toast.error(error?.response?.data.message);
-    }
-}
-}
+  };
 
- /**
- * @method [onPageChange] to change the page for data
- * @param {Object} data
- */
-const onPageChange = async (data) => {
-  try {
-    const res = await pageChange(data);
+  /**
+   * @method [onPageChange] to change the page for data
+   * @param {Object} data
+   */
+  const onPageChange = async (data) => {
+    try {
+      const res = await pageChange(data);
 
-    if (res?.data?.data.results.length > 0) {
-      const arrItems = res?.data?.data.results;
-      setImageHistory(arrItems);
-      setCount(res.data.data.count);
+      if (res?.data?.data.results.length > 0) {
+        const arrItems = res?.data?.data.results;
+        setImageHistory(arrItems);
+        setCount(res.data.data.count);
+      }
+    } catch (error) {
+      if (error.response.status === 429) {
+        toast(error429, {
+          variant: 'error'
+        });
+      } else {
+        toast.error(error?.response?.data.message);
+      }
     }
-  } catch (error) {
-    if (error.response.status === 429) {
-      toast(error429, {
-        variant: 'error'
-      });
-  }
-  else {
-    toast.error(error?.response?.data.message);
-    }
-}
-};
+  };
 
-/**
- * @method [onPageSizeChange] to change the size of page
- * @param {Object} data
- */
-const onPageSizeChange = async (data) => {
-  try {
-    const res = await pageSizeChange(data);
+  /**
+   * @method [onPageSizeChange] to change the size of page
+   * @param {Object} data
+   */
+  const onPageSizeChange = async (data) => {
+    try {
+      const res = await pageSizeChange(data);
 
-    if (res?.data?.data.results.length > 0) {
-      const arrItems = res?.data?.data.results;
-      setImageHistory(arrItems);
-      setCount(res.data.data.count);
+      if (res?.data?.data.results.length > 0) {
+        const arrItems = res?.data?.data.results;
+        setImageHistory(arrItems);
+        setCount(res.data.data.count);
+      }
+    } catch (error) {
+      if (error.response.status === 429) {
+        toast(error429, {
+          variant: 'error'
+        });
+      } else {
+        toast.error(error?.response?.data.message);
+      }
     }
-  } catch (error) {
-    if (error.response.status === 429) {
-      toast(error429, {
-        variant: 'error'
-      });
-  }
-  else {
-    toast.error(error?.response?.data.message);
-    }
-}
-};
-
+  };
 
   /**
    * @method [onRowClick] to handle row click for navigation
@@ -236,57 +229,58 @@ const onPageSizeChange = async (data) => {
       <Typography variant="h2" marginBottom={3}>
         Images History{' '}
       </Typography>
-      {!rateLimit && (<>
-        <Grid container spacing={3}>
-        <Grid item xs={12} sx={{ marginTop: '10px' }}>
-          <MainCard content={false}>
-            <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}></Stack>
-            <ScrollX>
-              <CustomDataGrid
-                columns={columns}
-                rows={imageHistory?.length > 0 ? imageHistory : []}
-                loading={isLoading}
-                onRowClick={onRowClick}
-                components={{
-                  Toolbar: CustomToolbar,
-                  NoResultsOverlay: () => (
-                    <Stack height="100%" alignItems="center" justifyContent="center">
-                      No record found
-                    </Stack>
-                  ),
-                  NoRowsOverlay: () => (
-                    <Stack height="100%" alignItems="center" justifyContent="center">
-                      No record found
-                    </Stack>
-                  )
-                }}
-                autoHeight={true}
-                getRowId={(row) => row?.image_content_id}
-                rowCount={count}
-                getRowHeight={() => 'auto'}
-                disableSelectionOnClick={true}
-                pagination
-                paginationMode="server"
-                filterMode="server"
-                onFilterModelChange={onFilterChange}
-                onPageChange={(data) => {
-                  onPageChange(data);
-                }}
-                onPageSizeChange={(data) => {
-                  onPageSizeChange(data);
-                }}
-                initialState={{
-                  pagination: {
-                    pageSize: 25
-                  }
-                }}
-              />
-            </ScrollX>
-          </MainCard>
-        </Grid>
-      </Grid>
-      </>)}
-   
+      {!rateLimit && (
+        <>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sx={{ marginTop: '10px' }}>
+              <MainCard content={false}>
+                <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}></Stack>
+                <ScrollX>
+                  <CustomDataGrid
+                    columns={columns}
+                    rows={imageHistory?.length > 0 ? imageHistory : []}
+                    loading={isLoading}
+                    onRowClick={onRowClick}
+                    components={{
+                      Toolbar: CustomToolbar,
+                      NoResultsOverlay: () => (
+                        <Stack height="100%" alignItems="center" justifyContent="center">
+                          No record found
+                        </Stack>
+                      ),
+                      NoRowsOverlay: () => (
+                        <Stack height="100%" alignItems="center" justifyContent="center">
+                          No record found
+                        </Stack>
+                      )
+                    }}
+                    autoHeight={true}
+                    getRowId={(row) => row?.image_content_id}
+                    rowCount={count}
+                    getRowHeight={() => 'auto'}
+                    disableSelectionOnClick={true}
+                    pagination
+                    paginationMode="server"
+                    filterMode="server"
+                    onFilterModelChange={onFilterChange}
+                    onPageChange={(data) => {
+                      onPageChange(data);
+                    }}
+                    onPageSizeChange={(data) => {
+                      onPageSizeChange(data);
+                    }}
+                    initialState={{
+                      pagination: {
+                        pageSize: 25
+                      }
+                    }}
+                  />
+                </ScrollX>
+              </MainCard>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </>
   );
 };

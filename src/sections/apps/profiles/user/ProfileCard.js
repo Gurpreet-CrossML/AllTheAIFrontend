@@ -1,4 +1,3 @@
-
 import { Box } from '@mui/material';
 import MainCard from 'components/MainCard';
 
@@ -21,6 +20,4 @@ const ProfileCard = () => {
   );
 };
 
-
 export default ProfileCard;
-

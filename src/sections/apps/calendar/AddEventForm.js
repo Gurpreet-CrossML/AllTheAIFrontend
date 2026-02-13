@@ -19,10 +19,8 @@ const AddEventForm = ({ onCancel, scheduleId, defaultDateTime }) => {
   const [isWaiting, setIsWaiting] = useState(false);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [loader, setLoader] = useState(false);
-  const[rateLimit, setRateLimit] = useState(false);
-  const[deleteLimit, setDeleteLimit] = useState(false);
-
-  
+  const [rateLimit, setRateLimit] = useState(false);
+  const [deleteLimit, setDeleteLimit] = useState(false);
 
   const handleCloseScheduleConfirmationModal = () => {
     setOpenModal(false);
@@ -31,7 +29,6 @@ const AddEventForm = ({ onCancel, scheduleId, defaultDateTime }) => {
   };
 
   const handleScheduleLaterClick = async () => {
-
     // Prepare the data to send in the request
     const requestData = {
       start: selectedDateTime ? selectedDateTime : defaultDateTime
@@ -51,15 +48,13 @@ const AddEventForm = ({ onCancel, scheduleId, defaultDateTime }) => {
         if (error.response) {
           if (error.response.status === 401) {
             localStorage.clear();
-            navigate('/auth/login'); 
-          }
-          else if (error.response.status === 429) { 
+            navigate('/auth/login');
+          } else if (error.response.status === 429) {
             setRateLimit(true);
             toast(error429, {
               variant: 'error'
             });
-          }
-          else {
+          } else {
             toast(error.response.data.message, {
               variant: 'error'
             });
@@ -69,7 +64,6 @@ const AddEventForm = ({ onCancel, scheduleId, defaultDateTime }) => {
   };
 
   const handleDelete = async () => {
-
     // Prepare the data to send in the request
     const requestData = {
       start: selectedDateTime
@@ -92,15 +86,13 @@ const AddEventForm = ({ onCancel, scheduleId, defaultDateTime }) => {
           setDeleteConfirmationOpen(false);
           if (error.response.status === 401) {
             localStorage.clear();
-            navigate('/auth/login'); 
-          }
-          else if (error.response.status === 429) { 
+            navigate('/auth/login');
+          } else if (error.response.status === 429) {
             setDeleteLimit(true);
             toast(error429, {
               variant: 'error'
             });
-          }
-          else {
+          } else {
             toast(error.response.data.message, {
               variant: 'error'
             });
@@ -123,57 +115,60 @@ const AddEventForm = ({ onCancel, scheduleId, defaultDateTime }) => {
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isWaiting === true}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      {!rateLimit && (<>
-        <DialogTitle>
-        Schedule your Content
-        <span style={{ color: 'red' }}>*</span>
-      </DialogTitle>
-      <DialogContent>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <StaticDateTimePicker
-            value={selectedDateTime ? selectedDateTime : defaultDateTime}
-            onChange={handleDateTimeChange}
-            renderInput={(params) => (
-              <>
-                <TextField {...params} InputProps={{ sx: { borderColor: 'black' } }} />
-              </>
-            )}
-            minDate={minDate}
-            componentsProps={{ actionBar: { actions: [] } }}
-          />
-        </LocalizationProvider>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleConfirmSchedule} style={{ marginRight: '150px' }} color="primary">
-          Delete
-        </Button>
-        <Button onClick={handleCloseScheduleConfirmationModal} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={() => handleScheduleLaterClick()} color="primary">
-          Schedule
-        </Button>
-      </DialogActions>
-      </>)}
+      {!rateLimit && (
+        <>
+          <DialogTitle>
+            Schedule your Content
+            <span style={{ color: 'red' }}>*</span>
+          </DialogTitle>
+          <DialogContent>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <StaticDateTimePicker
+                value={selectedDateTime ? selectedDateTime : defaultDateTime}
+                onChange={handleDateTimeChange}
+                renderInput={(params) => (
+                  <>
+                    <TextField {...params} InputProps={{ sx: { borderColor: 'black' } }} />
+                  </>
+                )}
+                minDate={minDate}
+                componentsProps={{ actionBar: { actions: [] } }}
+              />
+            </LocalizationProvider>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleConfirmSchedule} style={{ marginRight: '150px' }} color="primary">
+              Delete
+            </Button>
+            <Button onClick={handleCloseScheduleConfirmationModal} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={() => handleScheduleLaterClick()} color="primary">
+              Schedule
+            </Button>
+          </DialogActions>
+        </>
+      )}
 
-    
-{!deleteLimit && <> 
-  <Dialog open={deleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)}>
-        <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader === true}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-        <DialogTitle>Delete Confirmation</DialogTitle>
-        <DialogContent>Are you sure you want to delete this event?</DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteConfirmationOpen(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDelete} color="primary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-</>}
+      {!deleteLimit && (
+        <>
+          <Dialog open={deleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)}>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader === true}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            <DialogTitle>Delete Confirmation</DialogTitle>
+            <DialogContent>Are you sure you want to delete this event?</DialogContent>
+            <DialogActions>
+              <Button onClick={() => setDeleteConfirmationOpen(false)} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleDelete} color="primary">
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
     </>
   );
 };

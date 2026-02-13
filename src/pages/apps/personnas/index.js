@@ -18,7 +18,15 @@ import MainCard from 'components/MainCard';
 import ScrollX from 'components/ScrollX';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { changeStatusForPersona, deletePersonaType, filterChange, getList, getPageSizePersona, getPersonaIndustryList, pageChange } from '_api/personna';
+import {
+  changeStatusForPersona,
+  deletePersonaType,
+  filterChange,
+  getList,
+  getPageSizePersona,
+  getPersonaIndustryList,
+  pageChange
+} from '_api/personna';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment';
@@ -41,37 +49,34 @@ const Personna = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [rateLimit, setRateLimit] = useState(false);
   const [rateDeleteLimit, setRateDeleteLimit] = useState(false);
-/**
- * @method [getIndustriesList] to fetch the industries list from the server
- */
-const getIndustriesList = async () => {
-  try {
-    const response = await getPersonaIndustryList();
+  /**
+   * @method [getIndustriesList] to fetch the industries list from the server
+   */
+  const getIndustriesList = async () => {
+    try {
+      const response = await getPersonaIndustryList();
 
-    if (response?.data?.status === 'success') {
-      setIndustryList(response.data.data);
-    } 
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
+      if (response?.data?.status === 'success') {
+        setIndustryList(response.data.data);
       }
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
-
+  };
 
   /**
    * Confirmation Popup for the status and delete
@@ -127,7 +132,7 @@ const getIndustriesList = async () => {
         </Typography>
       )
     },
-    
+
     {
       headerName: 'Industry',
       field: 'industry',
@@ -241,149 +246,142 @@ const getIndustriesList = async () => {
   }, []);
 
   /**
- * @method [getPersonnaList] use to fetch the list of personas from the server
- */
-const getPersonnaList = async () => {
-  try {
-    setIsLoading(true);
-    const response = await getList();
+   * @method [getPersonnaList] use to fetch the list of personas from the server
+   */
+  const getPersonnaList = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getList();
 
-    if (response.status === 200) {
-      setPersonnaList(response.data.data.results);
-      setCount(response?.data?.data?.count);
-    }
-
-    setIsLoading(false);
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } 
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
+      if (response.status === 200) {
+        setPersonnaList(response.data.data.results);
+        setCount(response?.data?.data?.count);
       }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+
+      setIsLoading(false);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }
-};
+  };
 
+  /**
+   * @method [onFilterChange] to handle the
+   * @param {Object} value
+   */
+  const onFilterChange = async (value) => {
+    try {
+      const searchText = value.quickFilterValues.length > 0 ? value.quickFilterValues : '';
+      const res = await filterChange(searchText);
 
-/**
- * @method [onFilterChange] to handle the
- * @param {Object} value
- */
-const onFilterChange = async (value) => {
-  try {
-    const searchText = value.quickFilterValues.length > 0 ? value.quickFilterValues : '';
-    const res = await filterChange(searchText);
-
-    if (res?.data?.data.results?.length > 0) {
-      const arrItems = res?.data?.data?.results;
-      setPersonnaList(arrItems);
-      setCount(res.data.data.count);
-    } else {
-      setPersonnaList(res?.data?.data?.results);
-    }
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      }
-      else if (error.response.status === 429) { 
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-      }
-    }
-  }
-};
-
-/**
- * @method [onPageChange] to change the page for data
- * @param {Object} data
- */
-const onPageChange = async (data) => {
-  try {
-    setIsLoading(true);
-    const response = await pageChange(data);
-    setIsLoading(false);
-
-    if (response?.data?.data.results.length > 0) {
-      const arrItems = response?.data?.data.results;
-      setPersonnaList(arrItems);
-      setCount(response.data.data.count);
-    }
-  } catch (error) {
-    setIsLoading(false);
-
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } else if (error.response.status === 429) { 
-        toast(error429, {
-          variant: 'error'
-        });
+      if (res?.data?.data.results?.length > 0) {
+        const arrItems = res?.data?.data?.results;
+        setPersonnaList(arrItems);
+        setCount(res.data.data.count);
       } else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+        setPersonnaList(res?.data?.data?.results);
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
+  };
 
+  /**
+   * @method [onPageChange] to change the page for data
+   * @param {Object} data
+   */
+  const onPageChange = async (data) => {
+    try {
+      setIsLoading(true);
+      const response = await pageChange(data);
+      setIsLoading(false);
 
-/**
- * @method [onPageSizeChange] to change the size of page
- * @param {Object} data
- */
-const onPageSizeChange = async (data) => {
-  try {
-    setIsLoading(true);
-    const response = await getPageSizePersona(data);
-    setIsLoading(false);
+      if (response?.data?.data.results.length > 0) {
+        const arrItems = response?.data?.data.results;
+        setPersonnaList(arrItems);
+        setCount(response.data.data.count);
+      }
+    } catch (error) {
+      setIsLoading(false);
 
-    if (response?.data?.data.results.length > 0) {
-      const arrItems = response?.data?.data.results;
-      setPersonnaList(arrItems);
-      setCount(response.data.data.count);
-    }
-  } catch (error) {
-    setIsLoading(false);
-
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } else if (error.response.status === 429) { 
-        toast(error429, {
-          variant: 'error'
-        });
-      } else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
+  };
 
+  /**
+   * @method [onPageSizeChange] to change the size of page
+   * @param {Object} data
+   */
+  const onPageSizeChange = async (data) => {
+    try {
+      setIsLoading(true);
+      const response = await getPageSizePersona(data);
+      setIsLoading(false);
+
+      if (response?.data?.data.results.length > 0) {
+        const arrItems = response?.data?.data.results;
+        setPersonnaList(arrItems);
+        setCount(response.data.data.count);
+      }
+    } catch (error) {
+      setIsLoading(false);
+
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
+      }
+    }
+  };
 
   /**
    *
@@ -409,162 +407,157 @@ const onPageSizeChange = async (data) => {
     );
   }
 
-/**
- * @method [changeStatus] to active and deactivate the field
- */
-const changeStatus = async () => {
-  try {
-    let statusValue = selectedId?.personaStatus === 'active' ? 'deactive' : 'active';
+  /**
+   * @method [changeStatus] to active and deactivate the field
+   */
+  const changeStatus = async () => {
+    try {
+      let statusValue = selectedId?.personaStatus === 'active' ? 'deactive' : 'active';
 
-    const response = await changeStatusForPersona(selectedId?.id, statusValue);
+      const response = await changeStatusForPersona(selectedId?.id, statusValue);
 
-    setOpenStatusConfPopup(false);
-    getPersonnaList(); // Assuming you have a function to fetch the updated persona list
-    toast(response.data.message, { variant: 'success' });
-  } catch (error) {
-
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      }
-      else if (error.response.status === 429) { 
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+      setOpenStatusConfPopup(false);
+      getPersonnaList(); // Assuming you have a function to fetch the updated persona list
+      toast(response.data.message, { variant: 'success' });
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
+  };
 
+  /**
+   * @method [deletePersona] use to delete the persona from the list
+   */
+  const deletePersona = async () => {
+    try {
+      const response = await deletePersonaType(selectedId?.id);
 
- /**
- * @method [deletePersona] use to delete the persona from the list
- */
-const deletePersona = async () => {
-  try {
-    const response = await deletePersonaType(selectedId?.id);
+      toast(response?.data?.message, { variant: 'success' });
 
-    toast(response?.data?.message, { variant: 'success' });
-
-    const updatedPersonnaList = personnaList.filter((list) => list?.persona_id !== selectedId?.id);
-    setPersonnaList(updatedPersonnaList);
-    setCount(count - 1);
-    setOpenModalConfirmation(false);
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } 
-      else if (error.response.status === 429) { 
-        setRateDeleteLimit(true)
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+      const updatedPersonnaList = personnaList.filter((list) => list?.persona_id !== selectedId?.id);
+      setPersonnaList(updatedPersonnaList);
+      setCount(count - 1);
+      setOpenModalConfirmation(false);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateDeleteLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
-
+  };
 
   return (
     <>
-     {!rateLimit && (
-     <>
-      <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ marginTop: '10px', marginBottom: '10px' }}>
-        <Typography>{''}</Typography>
-        <Button
-          variant="contained"
-          onClick={() => {
-            navigate('/add-persona');
-          }}
-          startIcon={<PlusOutlined />}
-          size="small"
-        >
-          Add Personas
-        </Button>
-      </Stack>
-        <Grid container spacing={3}>
-        <Grid item xs={12} sx={{ marginTop: '10px' }}>
-          <MainCard content={false}>
-            <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}></Stack>
-            <ScrollX>
-              <CustomDataGrid
-                sx={{ marginLeft: 1 }}
-                columns={columns}
-                rows={personnaList?.length > 0 ? personnaList : []}
-                loading={isLoading}
-                components={{
-                  Toolbar: CustomToolbar,
-                  NoResultsOverlay: () => (
-                    <Stack height="100%" alignItems="center" justifyContent="center">
-                      No record found
-                    </Stack>
-                  ),
-                  NoRowsOverlay: () => (
-                    <Stack height="100%" alignItems="center" justifyContent="center">
-                      No record found
-                    </Stack>
-                  )
-                }}
-                initialState={{
-                  pagination: {
-                    pageSize: 25
-                  }
-                }}
-                autoHeight={true}
-                getRowId={(row) => row?.persona_id}
-                rowCount={count}
-                getRowHeight={() => 'auto'}
-                disableSelectionOnClick={true}
-                pagination
-                paginationMode="server"
-                filterMode="server"
-                onFilterModelChange={onFilterChange}
-                onPageChange={(data) => {
-                  onPageChange(data);
-                }}
-                onPageSizeChange={(data) => {
-                  onPageSizeChange(data);
-                }}
-              />
-            </ScrollX>
-            {/* Open Confirmation Popup for delete the User */}
-            {!rateDeleteLimit && <>
-              <ConfirmationPopup
-              open={openDeleteConfirmation}
-              onClose={() => setOpenModalConfirmation(false)}
-              title="Confirmation!"
-              dialogText="Are you sure you want to delete this persona ?"
-              handleCallback={deletePersona}
-            />
-            </>}
-       
-            {openStatusConfPopup === true && (
-              <ConfirmationPopup
-                open={openStatusConfPopup}
-                onClose={() => setOpenStatusConfPopup(false)}
-                title="Confirmation!"
-                dialogText="Are you sure you want to change the status ?"
-                handleCallback={changeStatus}
-              />
-            )}
-          </MainCard>
-        </Grid>
-      </Grid>
-      </>)}
-   
+      {!rateLimit && (
+        <>
+          <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ marginTop: '10px', marginBottom: '10px' }}>
+            <Typography>{''}</Typography>
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate('/add-persona');
+              }}
+              startIcon={<PlusOutlined />}
+              size="small"
+            >
+              Add Personas
+            </Button>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sx={{ marginTop: '10px' }}>
+              <MainCard content={false}>
+                <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}></Stack>
+                <ScrollX>
+                  <CustomDataGrid
+                    sx={{ marginLeft: 1 }}
+                    columns={columns}
+                    rows={personnaList?.length > 0 ? personnaList : []}
+                    loading={isLoading}
+                    components={{
+                      Toolbar: CustomToolbar,
+                      NoResultsOverlay: () => (
+                        <Stack height="100%" alignItems="center" justifyContent="center">
+                          No record found
+                        </Stack>
+                      ),
+                      NoRowsOverlay: () => (
+                        <Stack height="100%" alignItems="center" justifyContent="center">
+                          No record found
+                        </Stack>
+                      )
+                    }}
+                    initialState={{
+                      pagination: {
+                        pageSize: 25
+                      }
+                    }}
+                    autoHeight={true}
+                    getRowId={(row) => row?.persona_id}
+                    rowCount={count}
+                    getRowHeight={() => 'auto'}
+                    disableSelectionOnClick={true}
+                    pagination
+                    paginationMode="server"
+                    filterMode="server"
+                    onFilterModelChange={onFilterChange}
+                    onPageChange={(data) => {
+                      onPageChange(data);
+                    }}
+                    onPageSizeChange={(data) => {
+                      onPageSizeChange(data);
+                    }}
+                  />
+                </ScrollX>
+                {/* Open Confirmation Popup for delete the User */}
+                {!rateDeleteLimit && (
+                  <>
+                    <ConfirmationPopup
+                      open={openDeleteConfirmation}
+                      onClose={() => setOpenModalConfirmation(false)}
+                      title="Confirmation!"
+                      dialogText="Are you sure you want to delete this persona ?"
+                      handleCallback={deletePersona}
+                    />
+                  </>
+                )}
+
+                {openStatusConfPopup === true && (
+                  <ConfirmationPopup
+                    open={openStatusConfPopup}
+                    onClose={() => setOpenStatusConfPopup(false)}
+                    title="Confirmation!"
+                    dialogText="Are you sure you want to change the status ?"
+                    handleCallback={changeStatus}
+                  />
+                )}
+              </MainCard>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </>
   );
 };

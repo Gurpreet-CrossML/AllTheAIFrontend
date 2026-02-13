@@ -5,7 +5,7 @@ import Error404 from 'pages/maintenance/404';
 // project import
 
 import MainRoutes from './MainRoutes';
-import Login from "pages/auth/login.js"
+import Login from 'pages/auth/login.js';
 
 export default function ThemeRoutes() {
   return useRoutes([

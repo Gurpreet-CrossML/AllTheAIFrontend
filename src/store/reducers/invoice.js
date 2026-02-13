@@ -1,6 +1,3 @@
-
-
-
 // third-party
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -102,6 +99,3 @@ const invoice = createSlice({
 export default invoice.reducer;
 
 export const { reviewInvoicePopup, customerPopup, toggleCustomerPopup, selectCountry, getLists, alertPopupToggle } = invoice.actions;
-
-
-

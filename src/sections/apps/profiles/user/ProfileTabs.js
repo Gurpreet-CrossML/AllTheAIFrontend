@@ -73,46 +73,46 @@ const ProfileTabs = () => {
       setIsImgSet(true);
     }
   }, [myImage]);
- /**
- * @method [deleteProfilePicture] used to delete profile_pic
- */
-const deleteProfilePicture = async () => {
-  try {
-    const data = {
-      confirm_deletion: true
-    };
+  /**
+   * @method [deleteProfilePicture] used to delete profile_pic
+   */
+  const deleteProfilePicture = async () => {
+    try {
+      const data = {
+        confirm_deletion: true
+      };
 
-    const response = await deleteProfilePic(data);
+      const response = await deleteProfilePic(data);
 
-    if (response.data.status === 'success') {
-      const loginUser = JSON.parse(localStorage.getItem('user_info'));
-      delete loginUser.profile_pic;
-      localStorage.setItem('user_info', JSON.stringify(loginUser));
-      window.location.reload();
+      if (response.data.status === 'success') {
+        const loginUser = JSON.parse(localStorage.getItem('user_info'));
+        delete loginUser.profile_pic;
+        localStorage.setItem('user_info', JSON.stringify(loginUser));
+        window.location.reload();
 
-      toast(response.data.message, {
-        variant: 'success'
-      });
-      setOpenModal(false);
-    }
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
+        toast(response.data.message, {
+          variant: 'success'
         });
-      } else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+        setOpenModal(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
+  };
 
   const ConfirmationPopup = ({ title, dialogText, open, onClose, handleCallback }) => {
     const theme = useTheme();
@@ -138,13 +138,11 @@ const deleteProfilePicture = async () => {
    */
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    if(file.type ===  'image/jpg' ||  file.type ===  'image/jpeg' || file.type ===  'image/png') {
+    if (file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png') {
       setSelectedImage(file);
+    } else {
+      toast('Selected image type is not supported. Please choose a different image format and try again.', { variant: 'error' });
     }
-    else{
-      toast("Selected image type is not supported. Please choose a different image format and try again.", {variant:'error'})
-    }
-  
   };
 
   return (
@@ -210,7 +208,7 @@ const deleteProfilePicture = async () => {
                 disabled={myImage.disableUpload === false && true}
                 onChange={handleImageChange}
                 inputProps={{
-                  accept: ".jpg, .jpeg, .png"   // Specify that only image files are allowed
+                  accept: '.jpg, .jpeg, .png' // Specify that only image files are allowed
                 }}
               />
 

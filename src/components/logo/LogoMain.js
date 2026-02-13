@@ -10,12 +10,7 @@ const LogoMain = () => {
       }}
     >
       {/* Logo Icon */}
-      <img
-        src="/assets/images/logoiconalltheai.png"
-        alt="logo icon"
-        width="32"
-        height="32"
-      />
+      <img src="/assets/images/logoiconalltheai.png" alt="logo icon" width="32" height="32" />
 
       {/* Text Logo */}
       <span

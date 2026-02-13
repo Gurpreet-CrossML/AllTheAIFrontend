@@ -31,11 +31,11 @@ const App = () => {
 
     // If the token is present, redirect to '/dashboard/default' only if the current path is not a dashboard route
     // If the token is not present, redirect to '/auth/login' only if the current path is not an authentication route
-    const access_token = localStorage.getItem('token');// Replace 'your_token' with the actual token or use your token retrieval logic
+    const access_token = localStorage.getItem('token'); // Replace 'your_token' with the actual token or use your token retrieval logic
     const isAuthRoute = location.pathname.startsWith('/auth');
-    if (!access_token && !isAuthRoute ) {
+    if (!access_token && !isAuthRoute) {
       navigate('/auth/login', { replace: true });
-    } 
+    }
   }, [location.pathname, navigate]);
 
   if (loading) return <Loader />;

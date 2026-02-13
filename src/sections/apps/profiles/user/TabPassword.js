@@ -61,50 +61,48 @@ const TabPassword = () => {
     dispatch(updateDisableUpload(false));
   }, []);
 
-/**
- * @method [getPasswordChange] used to fetch data from api
- */
-const getPasswordChange = async (values, setErrors) => {
-  try {
-    const requestData = {
-      previous_password: values.previous_password,
-      proposed_password: values.proposed_password,
-      confirm_password: values.confirm_password
-    };
+  /**
+   * @method [getPasswordChange] used to fetch data from api
+   */
+  const getPasswordChange = async (values, setErrors) => {
+    try {
+      const requestData = {
+        previous_password: values.previous_password,
+        proposed_password: values.proposed_password,
+        confirm_password: values.confirm_password
+      };
 
-    const response = await changePassword(requestData);
+      const response = await changePassword(requestData);
 
-    if (response.data.status === 'success') {
-      toast(response.data.message, { variant: 'success' });
+      if (response.data.status === 'success') {
+        toast(response.data.message, { variant: 'success' });
+      }
+      logout();
+    } catch (error) {
+      if (error.response) {
+        setErrors(error.response.data.data);
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
+      }
     }
-    logout();
-  } catch (error) {
-    if (error.response) {
-      setErrors(error.response.data.data)
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      }
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-      }
-    }
-  }
-};
+  };
 
   /**
    * @method [logout] when user clicks on the icon and remove token from the localStorage
    */
   const logout = () => {
- userLogout().then((response) => {
+    userLogout().then((response) => {
       if (response.data.status === 'success') {
         setSession(null);
         dispatch({
@@ -116,10 +114,8 @@ const getPasswordChange = async (values, setErrors) => {
         localStorage.clear();
       }
       navigate('/auth/login');
-    })
-  }
-
-
+    });
+  };
 
   /**
    * @method [handleClickShowOldPassword]  Toggle visibility of old password
@@ -141,7 +137,6 @@ const getPasswordChange = async (values, setErrors) => {
   };
 
   return (
- 
     <MainCard title="Change Password">
       <Formik
         // Set the initial values for the form fields
@@ -167,7 +162,7 @@ const getPasswordChange = async (values, setErrors) => {
             if (error.response) {
               if (error.response.status === 401) {
                 localStorage.clear();
-                navigate('/auth/login'); 
+                navigate('/auth/login');
               } else {
                 toast(error.response.data.message, {
                   variant: 'error'
@@ -337,7 +332,6 @@ const getPasswordChange = async (values, setErrors) => {
         }}
       </Formik>
     </MainCard>
-     
   );
 };
 

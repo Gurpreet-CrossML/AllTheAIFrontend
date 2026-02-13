@@ -25,13 +25,13 @@ const AuthForgotPassword = () => {
         }}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            await forgotPassword(values.email)
-            setStatus({ success: true })
+            await forgotPassword(values.email);
+            setStatus({ success: true });
           } catch (err) {
             if (scriptedRef.current) {
               setStatus({ success: false });
 
-              toast(err?.response?.data?.message, { variant: 'error' })
+              toast(err?.response?.data?.message, { variant: 'error' });
               if (err?.response?.data?.data) {
                 setErrors(err.response.data.data);
               }
@@ -73,14 +73,10 @@ const AuthForgotPassword = () => {
 
               <Grid item xs={12}>
                 <AnimateButton>
-                  <Button
-                    disableElevation
-                    disabled={isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  > Send code to email</Button>
+                  <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained">
+                    {' '}
+                    Send code to email
+                  </Button>
                 </AnimateButton>
               </Grid>
             </Grid>

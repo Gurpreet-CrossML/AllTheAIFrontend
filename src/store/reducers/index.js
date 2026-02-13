@@ -35,6 +35,6 @@ const rootReducer = (state, action) => {
     state = undefined;
   }
   return reducers(state, action);
-}
+};
 
 export default rootReducer;

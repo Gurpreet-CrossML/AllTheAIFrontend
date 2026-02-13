@@ -156,26 +156,22 @@ const ContentEvents = () => {
           setIsStatic(true);
           if (error.response.status === 401) {
             localStorage.clear();
-            navigate('/auth/login'); 
-          }
-          else if (error.response.status === 404) {
+            navigate('/auth/login');
+          } else if (error.response.status === 404) {
             navigate('*');
             setIsStatic(true);
-          }
-          else if (error.response.status === 429) { 
+          } else if (error.response.status === 429) {
             setRateLimit(true);
             toast(error429, {
               variant: 'error'
             });
-          }
-           else {
+          } else {
             toast(error.response.data.message, {
               variant: 'error'
             });
             navigate('/content-history');
           }
         }
-
       });
   };
 
@@ -214,14 +210,12 @@ const ContentEvents = () => {
         if (error.response) {
           if (error.response.status === 401) {
             localStorage.clear();
-            navigate('/auth/login'); 
-          } 
-          else if (error.response.status === 429) { 
+            navigate('/auth/login');
+          } else if (error.response.status === 429) {
             toast(error429, {
               variant: 'error'
             });
-          }
-          else {
+          } else {
             toast(error.response.data.message, {
               variant: 'error'
             });
@@ -305,19 +299,18 @@ const ContentEvents = () => {
     setSelectedDateTime(null);
     setIsPublishNowEnabled(false);
     try {
-      const response = await socialMediaConnected()
+      const response = await socialMediaConnected();
       setIsWaiting(false);
       setSocilProfile(response?.data?.data);
       setIsModalOpen(true);
     } catch (error) {
       setIsWaiting(false);
-       if (error.response.status === 429) { 
+      if (error.response.status === 429) {
         setConnectedLimit(true);
         toast(error429, {
           variant: 'error'
         });
-      }
-     else if (error.response && error.response.status === 404) {
+      } else if (error.response && error.response.status === 404) {
         setError(true);
         // Handle 400 Bad Request
         toast(error.response.data.message, {
@@ -345,15 +338,13 @@ const ContentEvents = () => {
         if (error.response) {
           if (error.response.status === 401) {
             localStorage.clear();
-            navigate('/auth/login'); 
-          }
-          else if (error.response.status === 429) { 
+            navigate('/auth/login');
+          } else if (error.response.status === 429) {
             setConnectedLimit(true);
             toast(error429, {
               variant: 'error'
             });
-          }
-          else {
+          } else {
             toast(error.response.data.message, {
               variant: 'error'
             });
@@ -361,7 +352,6 @@ const ContentEvents = () => {
         }
       });
   };
-
 
   const handleDateTimeChange = (date) => {
     const dateTimeValue = date;
@@ -400,45 +390,42 @@ const ContentEvents = () => {
           generated_content_id: id,
           social_platform: social_platform.social_platform_id
         };
-  
+
         if (selectedMetaAccount === 'facebook') {
           requestData.facebook_page_id = selectedFacebookPage;
         } else {
           requestData.instagram_business_account_id = selectedFacebookPage;
         }
-  
+
         setLoader(true);
-  
+
         const response = await createSocialPost(requestData);
-  
+
         // Handle the response as needed
         toast(response.data.message, { variant: 'success' });
         navigate('/content-history');
       } catch (error) {
         setLoader(false);
-  
+
         if (error.response) {
           toast(`${error.response.data.message}`, { variant: 'error' });
           if (error.response.status === 401) {
             localStorage.clear();
             navigate('/auth/login');
-          }
-          else if (error.response.status === 429) { 
+          } else if (error.response.status === 429) {
             setConnectedLimit(true);
             toast(error429, {
               variant: 'error'
             });
-          }
-          else {
+          } else {
             toast(error.response.data.message, {
               variant: 'error'
             });
           }
-        } 
+        }
       }
     }
   };
-  
 
   const handleConfirmSchedule = async (social_platform) => {
     if (!isPublishNowEnabled) {
@@ -501,12 +488,12 @@ const ContentEvents = () => {
     setLoader(true);
 
     try {
-      const response = await schedulePost(requestData)
+      const response = await schedulePost(requestData);
       setLoader(false);
       toast(response.data.message, { variant: 'success' });
       navigate('/content-history');
     } catch (error) {
-        if (error.response && error.response.status === 429) {
+      if (error.response && error.response.status === 429) {
         setConnectedLimit(true);
         setLoader(false);
         toast(error429, {
@@ -516,13 +503,11 @@ const ContentEvents = () => {
         setLoader(false);
         localStorage.clear();
         navigate('/auth/login');
-      }
-     else  if (error.response) {
+      } else if (error.response) {
         setLoader(false);
         toast(`${error.response.data.message}`, { variant: 'error' });
       }
     }
-    
   };
 
   const openConfirmationDialog = () => {
@@ -597,14 +582,12 @@ const ContentEvents = () => {
         if (error.response) {
           if (error.response.status === 401) {
             localStorage.clear();
-            navigate('/auth/login'); 
-          } 
-          else if (error.response.status === 429) { 
+            navigate('/auth/login');
+          } else if (error.response.status === 429) {
             toast(error429, {
               variant: 'error'
             });
-          }
-          else {
+          } else {
             toast(error.response.data.message, {
               variant: 'error'
             });
@@ -670,751 +653,776 @@ const ContentEvents = () => {
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isWaiting === true}>
         <CircularProgress color="inherit" />
       </Backdrop>
-{!rateLimit && (<>
-  <Stack direction="row" justifyContent="space-between" alignItems="flex-end">
-        <Typography>{''}</Typography>
-        <Button
-          variant="contained"
-          onClick={() => {
-            navigate('/content-history');
-          }}
-          sx={{ marginBottom: 2 }}
-          startIcon={<Reply />}
-        >
-          Back
-        </Button>
-      </Stack>
+      {!rateLimit && (
+        <>
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-end">
+            <Typography>{''}</Typography>
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate('/content-history');
+              }}
+              sx={{ marginBottom: 2 }}
+              startIcon={<Reply />}
+            >
+              Back
+            </Button>
+          </Stack>
 
-      <Grid item lg={6}>
-        <Stack direction="column" spacing="1">
-          <Grid item xs={6}>
-            <Stack direction="row" spacing="2">
-              <Grid item xs={6} sm={6} md={6} lg={2}>
-                <FontAwesomeIcon icon={solid(eventsHistory.template_info?.template_icon)} size="3x" />
-                <FontAwesomeIcon icon={brands(eventsHistory.template_info?.template_icon)} size="3x" />
+          <Grid item lg={6}>
+            <Stack direction="column" spacing="1">
+              <Grid item xs={6}>
+                <Stack direction="row" spacing="2">
+                  <Grid item xs={6} sm={6} md={6} lg={2}>
+                    <FontAwesomeIcon icon={solid(eventsHistory.template_info?.template_icon)} size="3x" />
+                    <FontAwesomeIcon icon={brands(eventsHistory.template_info?.template_icon)} size="3x" />
+                  </Grid>
+                  <Grid item xs={6} sm={6} md={6} lg={10}>
+                    <Typography variant="h3" ml={2} mt={1}>
+                      {eventsHistory.template_info?.template_name}
+                    </Typography>
+                  </Grid>
+                </Stack>
               </Grid>
-              <Grid item xs={6} sm={6} md={6} lg={10}>
-                <Typography variant="h3" ml={2} mt={1}>
-                  {eventsHistory.template_info?.template_name}
+              <Grid item xs={12}>
+                <Typography variant="body1" color="secondary">
+                  {eventsHistory.template_info?.template_description}
                 </Typography>
               </Grid>
             </Stack>
+            <Grid item xs={12}>
+              {eventsHistory && eventsHistory.status && (
+                <Typography align="right" variant="h5" color={eventsHistory.status === 'draft' ? '' : '#00A854'}>
+                  <FontAwesomeIcon
+                    icon={solid(eventsHistory.status === 'draft' ? 'file' : 'check')}
+                    style={{ color: eventsHistory.status === 'draft' ? '' : '#00A854' }}
+                    size="xs"
+                  />
+                  {` ${eventsHistory.status === 'draft' ? 'Draft' : 'Verified'}`}
+                </Typography>
+              )}
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Typography variant="body1" color="secondary">
-              {eventsHistory.template_info?.template_description}
-            </Typography>
-          </Grid>
-        </Stack>
-        <Grid item xs={12}>
-          {eventsHistory && eventsHistory.status && (
-            <Typography align="right" variant="h5" color={eventsHistory.status === 'draft' ? '' : '#00A854'}>
-              <FontAwesomeIcon
-                icon={solid(eventsHistory.status === 'draft' ? 'file' : 'check')}
-                style={{ color: eventsHistory.status === 'draft' ? '' : '#00A854' }}
-                size="xs"
-              />
-              {` ${eventsHistory.status === 'draft' ? 'Draft' : 'Verified'}`}
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
-      {!isStatic && (
-        <Grid container spacing={3}>
-          {eventsHistory.length === 0 ? (
-            <Box sx={{ width: '100%' }}>
-              <LinearProgress />{' '}
-            </Box>
-          ) : (
-            <>
-              <Grid item xs={12} lg={6}>
-                <MainCard title="Questions/Answers" sx={{ height: '100%' }}>
-                  <form>
-                    {eventsHistory?.parameters?.length > 0 &&
-                      eventsHistory?.parameters?.map((item, index) => {
-                        return (
-                          <React.Fragment key={index}>
-                            <Grid item xs={12} marginBottom={3} marginTop={2}>
-                              <Typography variant="subtitle1" sx={{ color: theme.palette.common.black, marginBottom: 1 }}>
-                                <b>Q:-</b> {item?.question_val}
-                              </Typography>
-                              <TextField
-                                fullWidth
-                                variant="standard"
-                                id="outlined-disabled"
-                                value={item?.value === '' ? '--' : item?.value}
-                                InputProps={{
-                                  readOnly: true,
-                                  disableUnderline: true
-                                }}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Divider />
-                            </Grid>
-                          </React.Fragment>
-                        );
-                      })}
-                  </form>
-                </MainCard>
-              </Grid>
-
-              <Grid
-                item
-                xs={12}
-                lg={6}
-                sx={{
-                  '& .rdw-editor-wrapper': {
-                    bgcolor: theme.palette.background.paper,
-                    border: '1px solid',
-                    borderColor: theme.palette.divider,
-                    borderRadius: '4px',
-                    '& .rdw-editor-main': {
-                      px: 2,
-                      py: 0.5,
-                      border: 'none'
-                    },
-                    '& .rdw-editor-toolbar': {
-                      pt: 1.25,
-                      border: 'none',
-                      borderBottom: '1px solid',
-                      borderColor: theme.palette.divider,
-                      bgcolor: theme.palette.mode === 'dark' ? 'dark.light' : 'grey.50',
-                      '& .rdw-option-wrapper': {
-                        bgcolor: theme.palette.mode === 'dark' ? 'dark.light' : 'grey.50',
-                        borderColor: theme.palette.divider
-                      },
-                      '& .rdw-dropdown-wrapper': {
-                        bgcolor: theme.palette.mode === 'dark' ? 'dark.light' : 'grey.50',
-                        borderColor: theme.palette.divider,
-                        '& .rdw-dropdown-selectedtext': {
-                          color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : 'grey.900'
-                        },
-                        '& .rdw-dropdownoption-default': {
-                          color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : 'grey.900'
-                        }
-                      }
-                    }
-                  }
-                }}
-              >
-                <Grid container>
-                  <Grid item xs={12}>
-                    <MainCard
-                      className="content-generation-card-main"
-                      sx={{ height: 'auto' }}
-                      title={
-                        <div>
-                          Generated Content
-                          <Button
-                            title="Action"
-                            ref={anchorRef}
-                            id="composition-button"
-                            aria-controls={openExportButtonMenu ? 'composition-menu' : undefined}
-                            aria-expanded={openExportButtonMenu ? 'true' : undefined}
-                            aria-haspopup="true"
-                            onClick={handleToggle}
-                            sx={{ float: 'right', backgroundColor: 'transparent !important' }}
-                            color="inherit"
-                          >
-                            <FontAwesomeIcon icon={solid('ellipsis-vertical')} size="1x" />
-                          </Button>
-                        </div>
-                      }
-                    >
-                      <Popper
-                        open={openExportButtonMenu}
-                        anchorEl={anchorRef.current}
-                        role={undefined}
-                        placement="bottom-start"
-                        transition
-                        disablePortal
-                        sx={{ 'z-index': '99' }}
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            style={{
-                              transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom'
-                            }}
-                          >
-                            <Paper>
-                              <ClickAwayListener onClickAway={handleCloseExportBtnMenu}>
-                                <MenuList
-                                  autoFocusItem={openExportButtonMenu}
-                                  id="export-as-btn-composition-menu"
-                                  aria-labelledby="composition-button"
-                                  onKeyDown={handleListKeyDown}
-                                >
-                                  <MenuItem onClick={exportAsHTML} disabled={isContentEmpty()}>
-                                    Export as HTML
-                                  </MenuItem>
-
-                                  <MenuItem onClick={exportAsWord} disabled={isContentEmpty()}>
-                                    Export as Word
-                                  </MenuItem>
-                                </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Popper>
-
-                      <Editor
-                        editorStyle={{ height: 350, margin: 12, borderWidth: 0.5, padding: 10, borderRadius: '2px' }}
-                        editorState={editorState}
-                        readOnly={eventsHistory?.status === 'published' || eventsHistory?.status === 'verified'}
-                        onEditorStateChange={setEditorState}
-                        onContentStateChange={() => {
-                          const contentState = editorState.getCurrentContent();
-                          const contentStateRaw = convertToRaw(contentState);
-
-                          let imgArray = Object.keys(contentStateRaw.entityMap);
-
-                          if (imgArray && imgArray.length > 5) {
-                            setImageError('Exceeded limit, please choose up to 5 images only.');
-                          } else {
-                            setImageError('');
-                          }
-                        }}
-                        toolbarHidden={isButtonDisabled ? true : false}
-                        toolbar={{
-                          image: {
-                            urlEnabled: true,
-                            uploadEnabled: true,
-                            uploadCallback: _uploadImageCallBack,
-                            previewImage: true,
-                            inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
-                            defaultSize: {
-                              height: '500px',
-                              width: '500px'
-                            }
-                          },
-                          options: [
-                            'inline',
-                            'blockType',
-                            'fontSize',
-                            'fontFamily',
-                            'list',
-                            'textAlign',
-                            'link',
-                            'emoji',
-                            'image',
-                            'remove',
-                            'history'
-                          ],
-                          list: { inDropdown: true },
-                          textAlign: { inDropdown: true },
-                          inline: {
-                            options: ['bold', 'italic', 'underline', 'strikethrough']
-                          }
-                        }}
-                      />
-
-                      <Grid container>
-                        <Grid item xs={12} sm={6} md={6} lg={6} mt={3}>
-                          {imageError && <FormHelperText sx={{ color: '#F04134', float: 'left' }}>{imageError}</FormHelperText>}
-                        </Grid>
-
-                        <Grid item xs={12} sm={6} md={6} lg={6}>
-                          <Stack
-                            direction={{ xs: 'column', sm: 'row' }}
-                            justifyContent="flex-end"
-                            alignItems="center"
-                            spacing={2}
-                            sx={{ mt: 2.5, top: 0, right: 0, left: 0, position: 'relative' }}
-                          >
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              onClick={saveAsDraft}
-                              style={{ display: eventsHistory?.status === 'draft' ? 'block' : 'none' }}
-                              disabled={isContentEmpty() || limitImagesError()}
-                            >
-                              Save as Draft
-                            </Button>
-                            {!isButtonDisabled && (
-                              <Button
-                                type="submit"
-                                variant="contained"
-                                disabled={isButtonDisabled || limitImagesError()}
-                                onClick={handleVerifiedClick}
-                              >
-                                Verify
-                              </Button>
-                            )}
-
-                            <Dialog open={isConfirmationOpen} onClose={closeConfirmationDialog}>
-                              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
-                                <CircularProgress color="inherit" />
-                              </Backdrop>
-                              <DialogTitle>Confirm Verification</DialogTitle>
-                              <DialogContent>
-                                Are you sure you want to verify the content? After verification, you cannot edit this content.
-                              </DialogContent>
-                              <DialogActions>
-                                <Button onClick={closeConfirmationDialog} color="primary">
-                                  Cancel
-                                </Button>
-                                <Button onClick={verifiedContent} color="primary">
-                                  Confirm
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-
-                            {isButtonDisabled && (
-                              <>
-                                <Button variant="contained" onClick={handleMakeAsCopy}>
-                                  Make As Copy
-                                </Button>
-
-                                <Button
-                                  type="submit"
-                                  variant="contained"
-                                  onClick={() => publishContent()}
-                                >
-                                  Publish
-                                </Button>
-                              </>
-                            )}
-
-                            {!connectedLimit && socilProfile.length > 0 ? (
-                              <Dialog
-                                open={isModalOpen}
-                                onClose={() => setIsModalOpen(false)}
-                                fullWidth={true} // Make the modal full width
-                                maxWidth="lg" // Set to 'lg' for full width
-                              >
-                                <DialogTitle sx={{ fontSize: '1.5rem', height: isSmallScreen ? '110px' : '75px' }}>
-                                  Choose your integration
-                                  <Typography variant="h4">
-                                    {' '}
-                                    {socilProfile.length > 0 && (
-                                      <span style={{ fontSize: '0.8rem', marginLeft: '8px', marginBottom: '40px' }}>
-                                        {socilProfile.length} {socilProfile.length === 1 ? 'profile connected' : 'profiles connected'}
-                                      </span>
-                                    )}
+          {!isStatic && (
+            <Grid container spacing={3}>
+              {eventsHistory.length === 0 ? (
+                <Box sx={{ width: '100%' }}>
+                  <LinearProgress />{' '}
+                </Box>
+              ) : (
+                <>
+                  <Grid item xs={12} lg={6}>
+                    <MainCard title="Questions/Answers" sx={{ height: '100%' }}>
+                      <form>
+                        {eventsHistory?.parameters?.length > 0 &&
+                          eventsHistory?.parameters?.map((item, index) => {
+                            return (
+                              <React.Fragment key={index}>
+                                <Grid item xs={12} marginBottom={3} marginTop={2}>
+                                  <Typography variant="subtitle1" sx={{ color: theme.palette.common.black, marginBottom: 1 }}>
+                                    <b>Q:-</b> {item?.question_val}
                                   </Typography>
-                                </DialogTitle>
-
-                                <DialogContent>
-                                  {socilProfile && (
-                                    <Grid container spacing={3}>
-                                      {socilProfile.map((profile, index) => (
-                                        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                                          <MainCard
-                                            style={{
-                                              height: '140px',
-                                              backgroundColor: 'rgba(114, 100, 230, 0.13)',
-                                              borderColor: 'rgba(114, 100, 230, 0.13)'
-                                            }}
-                                            shadow="none"
-                                            boxShadow
-                                            sx={{
-                                              mt: 2,
-                                              borderRadius: '10px'
-                                            }}
-                                          >
-                                            <Stack spacing={1}>
-                                              <Grid container>
-                                                <Grid
-                                                  item
-                                                  xs={12}
-                                                  sm={6}
-                                                  md={2}
-                                                  container
-                                                  direction="column"
-                                                  alignItems="center"
-                                                  justifyContent="center"
-                                                >
-                                                  <FontAwesomeIcon icon={solid(profile?.social_platform_icon)} size="3x" />
-                                                  <FontAwesomeIcon icon={brands(profile?.social_platform_icon)} size="3x" />
-                                                </Grid>
-                                                <Grid item xs={12} sm={6} md={10} pl={2}>
-                                                  <Stack direction="column" alignItems="left">
-                                                    <Typography variant="h5">{profile?.social_platform_name}</Typography>
-                                                    <Typography variant="h6">@{profile?.username}</Typography>
-                                                  </Stack>
-                                                </Grid>
-
-                                                <Grid
-                                                  item
-                                                  xs={12}
-                                                  sm={12}
-                                                  md={3}
-                                                  lg={3}
-                                                  mt={4}
-                                                  style={{ display: 'flex', justifyContent: 'flex-start' }}
-                                                >
-                                                  <Tooltip title="View">
-                                                    <VisibilityIcon
-                                                      color="dark"
-                                                      onClick={() => handleViewModalOpen(profile)}
-                                                      style={{ fontSize: '1.6rem', cursor: !isPublishNowEnabled ? 'pointer' : 'allowed' }}
-                                                    />
-                                                  </Tooltip>
-
-                                                  <Tooltip title="Schedule For Later">
-                                                    <ScheduleIcon
-                                                      color="dark"
-                                                      onClick={() => handleConfirmSchedule(profile)}
-                                                      style={{ marginLeft: '11px', cursor: !isPublishNowEnabled ? 'pointer' : 'allowed' }}
-                                                    />
-                                                  </Tooltip>
-
-                                                  <Tooltip title="Publish Now">
-                                                    <TaskAltIcon
-                                                      color="dark"
-                                                      onClick={() => handleConfirmPublish(profile)}
-                                                      style={{ marginLeft: '11px', cursor: !isPublishNowEnabled ? 'pointer' : 'allowed' }}
-                                                    />
-                                                  </Tooltip>
-                                                </Grid>
-                                              </Grid>
-                                            </Stack>
-                                          </MainCard>
-                                        </Grid>
-                                      ))}
-                                    </Grid>
-                                  )}
-                                </DialogContent>
-                                <DialogActions mt={4}>
-                                  <Button onClick={() => setIsModalOpen(false)} color="primary">
-                                    Cancel
-                                  </Button>
-                                </DialogActions>
-                              </Dialog>
-                            ) : !connectedLimit &&  (
-                              <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                                <DialogTitle sx={{ fontSize: '1.5rem', height: '75px' }}> Choose your integration</DialogTitle>
-                                <DialogContent>No social media platforms are currently integrated into the system 
-                                Click <Link variant="h6"  component={RouterLink} to="/social-media" color="#753CEF" style={{cursor:"pointer"}}> here
-                                </Link> to connect.
-                                </DialogContent>
-                                <DialogActions>
-                                  <Button onClick={() => setIsModalOpen(false)} color="primary">
-                                    Cancel
-                                  </Button>
-                                </DialogActions>
-                              </Dialog>
-                            )}
-
-                            <Dialog open={scheduleConfirmationModal} onClose={handleCloseScheduleConfirmationModal}>
-                              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
-                                <CircularProgress color="inherit" />
-                              </Backdrop>
-                              <DialogTitle>
-                                Select Date & Time
-                                <span style={{ color: 'red' }}>*</span>
-                              </DialogTitle>
-                              <DialogContent>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                  <StaticDateTimePicker
-                                    value={selectedDateTime}
-                                    onChange={handleDateTimeChange}
-                                    renderInput={(params) => (
-                                      <>
-                                        <TextField {...params} InputProps={{ sx: { borderColor: 'black' } }} />
-                                        <FormHelperText>{error}</FormHelperText>
-                                      </>
-                                    )}
-                                    minDate={minDate}
-                                    componentsProps={{ actionBar: { actions: [] } }}
+                                  <TextField
+                                    fullWidth
+                                    variant="standard"
+                                    id="outlined-disabled"
+                                    value={item?.value === '' ? '--' : item?.value}
+                                    InputProps={{
+                                      readOnly: true,
+                                      disableUnderline: true
+                                    }}
                                   />
-                                </LocalizationProvider>
-                              </DialogContent>
-                              <DialogActions>
-                                <Button onClick={handleCloseScheduleConfirmationModal} color="primary">
-                                  Cancel
-                                </Button>
-                                <Button onClick={() => handleScheduleLaterClick(selectedProfile)} color="primary">
-                                  Schedule
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-
-{!connectedLimit && <>
-  <Dialog open={scheduleMetaConfirmationModal} onClose={handleCloseScheduleConfirmationModal}>
-                              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
-                                <CircularProgress color="inherit" />
-                              </Backdrop>
-                              <DialogTitle>Select Your Business Profile</DialogTitle>
-                              <DialogContent>
-                                <FormControl>
-                                  <RadioGroup
-                                    sx={{ marginTop: '10px' }}
-                                    row
-                                    aria-labelledby="demo-row-radio-buttons-group-label"
-                                    name="row-radio-buttons-group"
-                                    value={selectedMetaAccount}
-                                    onChange={(e) => {
-                                      setSelectedMetaAccount(e.target.value);
-                                      if (e.target.value === 'facebook') {
-                                        setShowFacebookPageDropDown(true);
-                                        setShowInstagramPageDropDown(false);
-                                        getMetaPagesAPI(selectedProfile, 'facebook'); // Adjusted function call
-                                      } else {
-                                        setShowFacebookPageDropDown(false);
-                                        setShowInstagramPageDropDown(true);
-                                        getMetaPagesAPI(selectedProfile, 'instagram'); // Adjusted function call
-                                      }
-                                    }}
-                                  >
-                                    <FormControlLabel value="facebook" control={<Radio />} label="Facebook Business Pages" />
-                                    <FormControlLabel
-                                      sx={{ marginLeft: '25px' }}
-                                      value="instagram"
-                                      control={<Radio />}
-                                      label="Instagram Business Accounts"
-                                    />
-                                  </RadioGroup>
-                                </FormControl>
-                                {facebookPages && showFacebookPageDropDown && (
-                                  <FormControl fullWidth sx={{ marginTop: '20px' }}>
-                                    <InputLabel id="demo-simple-select-label">Select Business Pages</InputLabel>
-                                    <Select
-                                      labelId="demo-simple-select-label"
-                                      id="demo-simple-select"
-                                      value={selectedFacebookPage || (facebookPages.length > 0 ? facebookPages[0].id : '')}
-                                      label="Select Page"
-                                      onChange={(e) => selectPageHandle(e)}
-                                    >
-                                      {facebookPages.map((page, index) => (
-                                        <MenuItem key={index} value={page.id}>
-                                          {page.name}
-                                        </MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                )}
-                                {facebookPages && showInstagramPageDropDown && (
-                                  <FormControl fullWidth sx={{ marginTop: '20px' }}>
-                                    <InputLabel id="demo-simple-select-label">Select Business Accounts</InputLabel>
-                                    <Select
-                                      labelId="demo-simple-select-label"
-                                      id="demo-simple-select"
-                                      value={selectedFacebookPage || (facebookPages.length > 0 ? facebookPages[0].id : '')}
-                                      label="Select Page"
-                                      onChange={(e) => selectPageHandle(e)}
-                                    >
-                                      {facebookPages.map((page, index) => (
-                                        <MenuItem key={index} value={page.id}>
-                                          {page.name}
-                                        </MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                )}
-                                <FormControl fullWidth sx={{ marginTop: '20px' }}>
-                                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <StaticDateTimePicker
-                                      value={selectedDateTime}
-                                      onChange={handleDateTimeChange}
-                                      label="Select Date & Time"
-                                      renderInput={(params) => (
-                                        <>
-                                          <TextField {...params} InputProps={{ sx: { borderColor: 'black' } }} />
-                                          {error && <FormHelperText>{error}</FormHelperText>}
-                                          <FormHelperText sx={{ marginTop: '10px' }}>
-                                            {'Important: The schedule date must be between 10 minutes and 30 days from the time now'}
-                                          </FormHelperText>
-                                        </>
-                                      )}
-                                      minDate={minDate}
-                                      componentsProps={{ actionBar: { actions: [] } }}
-                                    />
-                                  </LocalizationProvider>
-                                </FormControl>
-                              </DialogContent>
-
-                              <DialogActions>
-                                <Button onClick={handleCloseScheduleConfirmationModal} color="primary">
-                                  Cancel
-                                </Button>
-                                <Button onClick={() => handleScheduleLaterClick(selectedProfile)} color="primary">
-                                  Schedule
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-</>}
-                           
-
-                            {/* PUBLISH NOW */}
-
-                            <Dialog open={openConfirmationModal && !isWaiting && !connectedLimit} onClose={handleCloseConfirmationModal }>
-                              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
-                                <CircularProgress color="inherit" />
-                              </Backdrop>
-                              <DialogTitle>Confirmation</DialogTitle>
-                              <DialogContent>Are you sure you want to publish now?</DialogContent>
-                              <DialogActions>
-                                <Button onClick={handleCloseConfirmationModal} color="primary">
-                                  Cancel
-                                </Button>
-                                <Button onClick={() => handlePublishNowClick(selectedProfile)} color="primary">
-                                  Confirm
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-{!connectedLimit && <>
-       {/* FOR META */}
-       <Dialog open={openMetaConfirmationModal} onClose={handleCloseConfirmationModal} fullWidth>
-                              <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
-                                <CircularProgress color="inherit" />
-                              </Backdrop>
-                              <DialogTitle>Select Your Business Profile</DialogTitle>
-                              <DialogContent>
-                                <FormControl>
-                                  <RadioGroup
-                                    sx={{ marginTop: '10px' }}
-                                    row
-                                    aria-labelledby="demo-row-radio-buttons-group-label"
-                                    name="row-radio-buttons-group"
-                                    value={selectedMetaAccount}
-                                    onChange={(e) => {
-                                      setSelectedMetaAccount(e.target.value);
-                                      if (e.target.value === 'facebook') {
-                                        setShowFacebookPageDropDown(true);
-                                        setShowInstagramPageDropDown(false);
-                                        getMetaPagesAPI(selectedProfile, 'facebook'); // Adjusted function call
-                                      } else {
-                                        setShowFacebookPageDropDown(false);
-                                        setShowInstagramPageDropDown(true);
-                                        getMetaPagesAPI(selectedProfile, 'instagram'); // Adjusted function call
-                                      }
-                                    }}
-                                  >
-                                    <FormControlLabel value="facebook" control={<Radio />} label="Facebook Business Pages" />
-                                    <FormControlLabel
-                                      sx={{ marginLeft: '25px' }}
-                                      value="instagram"
-                                      control={<Radio />}
-                                      label="Instagram Business Accounts"
-                                    />
-                                  </RadioGroup>
-                                </FormControl>
-                              </DialogContent>
-
-                              {facebookPages && showFacebookPageDropDown && (
-                                <DialogContent>
-                                  <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Select Business Pages</InputLabel>
-                                    <Select
-                                      labelId="demo-simple-select-label"
-                                      id="demo-simple-select"
-                                      value={selectedFacebookPage || (facebookPages && facebookPages.length && facebookPages[0].id)}
-                                      label="Select Page"
-                                      onChange={(e) => selectPageHandle(e)}
-                                    >
-                                      {facebookPages.map((page, index) => (
-                                        <MenuItem key={index} value={page.id}>
-                                          {page.name}
-                                        </MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                </DialogContent>
-                              )}
-                              {facebookPages && showInstagramPageDropDown && (
-                                <DialogContent>
-                                  <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Select Business Accounts</InputLabel>
-                                    <Select
-                                      labelId="demo-simple-select-label"
-                                      id="demo-simple-select"
-                                      value={selectedFacebookPage || (facebookPages && facebookPages.length && facebookPages[0].id)}
-                                      label="Select Page"
-                                      onChange={(e) => selectPageHandle(e)}
-                                    >
-                                      {facebookPages.map((page, index) => (
-                                        <MenuItem key={index} value={page.id}>
-                                          {page.name}
-                                        </MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                </DialogContent>
-                              )}
-                              <DialogActions>
-                                <Button onClick={handleCloseConfirmationModal} color="primary">
-                                  Cancel
-                                </Button>
-                                <Button onClick={() => handlePublishNowClick(selectedProfile)} color="primary">
-                                  Confirm
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-</>}
-                     
-
-                            <Dialog open={isViewModalOpen} onClose={handleViewModalClose}>
-                              <DialogContent>
-                                <CustomView profile={selectedProfile} />
-                              </DialogContent>
-                              <DialogActions>
-                                <Button onClick={handleViewModalClose} color="primary">
-                                  Cancel
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-                          </Stack>
-                        </Grid>
-                      </Grid>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Divider />
+                                </Grid>
+                              </React.Fragment>
+                            );
+                          })}
+                      </form>
                     </MainCard>
                   </Grid>
-                  <Grid item xs={12} marginTop={5}>
-                    <MainCard title="Events History" content={false}>
-                      <SimpleBar style={{ maxHeight: '350px' }}>
-                        <CardContent>
-                          <Grid container spacing={3} alignItems="center">
-                            {eventsHistory?.events?.length > 0 &&
-                              eventsHistory?.events?.map((val, index) => {
-                                return (
-                                  <Grid item xs={12} key={index}>
-                                    <Grid container spacing={2}>
-                                      <Grid item xs zeroMinWidth>
-                                        <Typography align="left" variant="subtitle1">
-                                          {capitalizeString(val?.event)}
-                                          {(val?.event === 'published' || val?.event === 'scheduled') && (
-                                            <>
-                                              {' '}
-                                              -
-                                              <Typography align="left" variant="caption" color="primary">
-                                                {' '}
-                                                {val?.published_platform}
-                                              </Typography>
-                                              <Typography align="left" variant="caption">
-                                                {' '}
-                                                @{val?.platform_username}
-                                              </Typography>
-                                            </>
-                                          )}
-                                        </Typography>
+
+                  <Grid
+                    item
+                    xs={12}
+                    lg={6}
+                    sx={{
+                      '& .rdw-editor-wrapper': {
+                        bgcolor: theme.palette.background.paper,
+                        border: '1px solid',
+                        borderColor: theme.palette.divider,
+                        borderRadius: '4px',
+                        '& .rdw-editor-main': {
+                          px: 2,
+                          py: 0.5,
+                          border: 'none'
+                        },
+                        '& .rdw-editor-toolbar': {
+                          pt: 1.25,
+                          border: 'none',
+                          borderBottom: '1px solid',
+                          borderColor: theme.palette.divider,
+                          bgcolor: theme.palette.mode === 'dark' ? 'dark.light' : 'grey.50',
+                          '& .rdw-option-wrapper': {
+                            bgcolor: theme.palette.mode === 'dark' ? 'dark.light' : 'grey.50',
+                            borderColor: theme.palette.divider
+                          },
+                          '& .rdw-dropdown-wrapper': {
+                            bgcolor: theme.palette.mode === 'dark' ? 'dark.light' : 'grey.50',
+                            borderColor: theme.palette.divider,
+                            '& .rdw-dropdown-selectedtext': {
+                              color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : 'grey.900'
+                            },
+                            '& .rdw-dropdownoption-default': {
+                              color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : 'grey.900'
+                            }
+                          }
+                        }
+                      }
+                    }}
+                  >
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <MainCard
+                          className="content-generation-card-main"
+                          sx={{ height: 'auto' }}
+                          title={
+                            <div>
+                              Generated Content
+                              <Button
+                                title="Action"
+                                ref={anchorRef}
+                                id="composition-button"
+                                aria-controls={openExportButtonMenu ? 'composition-menu' : undefined}
+                                aria-expanded={openExportButtonMenu ? 'true' : undefined}
+                                aria-haspopup="true"
+                                onClick={handleToggle}
+                                sx={{ float: 'right', backgroundColor: 'transparent !important' }}
+                                color="inherit"
+                              >
+                                <FontAwesomeIcon icon={solid('ellipsis-vertical')} size="1x" />
+                              </Button>
+                            </div>
+                          }
+                        >
+                          <Popper
+                            open={openExportButtonMenu}
+                            anchorEl={anchorRef.current}
+                            role={undefined}
+                            placement="bottom-start"
+                            transition
+                            disablePortal
+                            sx={{ 'z-index': '99' }}
+                          >
+                            {({ TransitionProps, placement }) => (
+                              <Grow
+                                {...TransitionProps}
+                                style={{
+                                  transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom'
+                                }}
+                              >
+                                <Paper>
+                                  <ClickAwayListener onClickAway={handleCloseExportBtnMenu}>
+                                    <MenuList
+                                      autoFocusItem={openExportButtonMenu}
+                                      id="export-as-btn-composition-menu"
+                                      aria-labelledby="composition-button"
+                                      onKeyDown={handleListKeyDown}
+                                    >
+                                      <MenuItem onClick={exportAsHTML} disabled={isContentEmpty()}>
+                                        Export as HTML
+                                      </MenuItem>
+
+                                      <MenuItem onClick={exportAsWord} disabled={isContentEmpty()}>
+                                        Export as Word
+                                      </MenuItem>
+                                    </MenuList>
+                                  </ClickAwayListener>
+                                </Paper>
+                              </Grow>
+                            )}
+                          </Popper>
+
+                          <Editor
+                            editorStyle={{ height: 350, margin: 12, borderWidth: 0.5, padding: 10, borderRadius: '2px' }}
+                            editorState={editorState}
+                            readOnly={eventsHistory?.status === 'published' || eventsHistory?.status === 'verified'}
+                            onEditorStateChange={setEditorState}
+                            onContentStateChange={() => {
+                              const contentState = editorState.getCurrentContent();
+                              const contentStateRaw = convertToRaw(contentState);
+
+                              let imgArray = Object.keys(contentStateRaw.entityMap);
+
+                              if (imgArray && imgArray.length > 5) {
+                                setImageError('Exceeded limit, please choose up to 5 images only.');
+                              } else {
+                                setImageError('');
+                              }
+                            }}
+                            toolbarHidden={isButtonDisabled ? true : false}
+                            toolbar={{
+                              image: {
+                                urlEnabled: true,
+                                uploadEnabled: true,
+                                uploadCallback: _uploadImageCallBack,
+                                previewImage: true,
+                                inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+                                defaultSize: {
+                                  height: '500px',
+                                  width: '500px'
+                                }
+                              },
+                              options: [
+                                'inline',
+                                'blockType',
+                                'fontSize',
+                                'fontFamily',
+                                'list',
+                                'textAlign',
+                                'link',
+                                'emoji',
+                                'image',
+                                'remove',
+                                'history'
+                              ],
+                              list: { inDropdown: true },
+                              textAlign: { inDropdown: true },
+                              inline: {
+                                options: ['bold', 'italic', 'underline', 'strikethrough']
+                              }
+                            }}
+                          />
+
+                          <Grid container>
+                            <Grid item xs={12} sm={6} md={6} lg={6} mt={3}>
+                              {imageError && <FormHelperText sx={{ color: '#F04134', float: 'left' }}>{imageError}</FormHelperText>}
+                            </Grid>
+
+                            <Grid item xs={12} sm={6} md={6} lg={6}>
+                              <Stack
+                                direction={{ xs: 'column', sm: 'row' }}
+                                justifyContent="flex-end"
+                                alignItems="center"
+                                spacing={2}
+                                sx={{ mt: 2.5, top: 0, right: 0, left: 0, position: 'relative' }}
+                              >
+                                <Button
+                                  variant="contained"
+                                  color="secondary"
+                                  onClick={saveAsDraft}
+                                  style={{ display: eventsHistory?.status === 'draft' ? 'block' : 'none' }}
+                                  disabled={isContentEmpty() || limitImagesError()}
+                                >
+                                  Save as Draft
+                                </Button>
+                                {!isButtonDisabled && (
+                                  <Button
+                                    type="submit"
+                                    variant="contained"
+                                    disabled={isButtonDisabled || limitImagesError()}
+                                    onClick={handleVerifiedClick}
+                                  >
+                                    Verify
+                                  </Button>
+                                )}
+
+                                <Dialog open={isConfirmationOpen} onClose={closeConfirmationDialog}>
+                                  <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
+                                    <CircularProgress color="inherit" />
+                                  </Backdrop>
+                                  <DialogTitle>Confirm Verification</DialogTitle>
+                                  <DialogContent>
+                                    Are you sure you want to verify the content? After verification, you cannot edit this content.
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <Button onClick={closeConfirmationDialog} color="primary">
+                                      Cancel
+                                    </Button>
+                                    <Button onClick={verifiedContent} color="primary">
+                                      Confirm
+                                    </Button>
+                                  </DialogActions>
+                                </Dialog>
+
+                                {isButtonDisabled && (
+                                  <>
+                                    <Button variant="contained" onClick={handleMakeAsCopy}>
+                                      Make As Copy
+                                    </Button>
+
+                                    <Button type="submit" variant="contained" onClick={() => publishContent()}>
+                                      Publish
+                                    </Button>
+                                  </>
+                                )}
+
+                                {!connectedLimit && socilProfile.length > 0 ? (
+                                  <Dialog
+                                    open={isModalOpen}
+                                    onClose={() => setIsModalOpen(false)}
+                                    fullWidth={true} // Make the modal full width
+                                    maxWidth="lg" // Set to 'lg' for full width
+                                  >
+                                    <DialogTitle sx={{ fontSize: '1.5rem', height: isSmallScreen ? '110px' : '75px' }}>
+                                      Choose your integration
+                                      <Typography variant="h4">
+                                        {' '}
+                                        {socilProfile.length > 0 && (
+                                          <span style={{ fontSize: '0.8rem', marginLeft: '8px', marginBottom: '40px' }}>
+                                            {socilProfile.length} {socilProfile.length === 1 ? 'profile connected' : 'profiles connected'}
+                                          </span>
+                                        )}
+                                      </Typography>
+                                    </DialogTitle>
+
+                                    <DialogContent>
+                                      {socilProfile && (
+                                        <Grid container spacing={3}>
+                                          {socilProfile.map((profile, index) => (
+                                            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                                              <MainCard
+                                                style={{
+                                                  height: '140px',
+                                                  backgroundColor: 'rgba(114, 100, 230, 0.13)',
+                                                  borderColor: 'rgba(114, 100, 230, 0.13)'
+                                                }}
+                                                shadow="none"
+                                                boxShadow
+                                                sx={{
+                                                  mt: 2,
+                                                  borderRadius: '10px'
+                                                }}
+                                              >
+                                                <Stack spacing={1}>
+                                                  <Grid container>
+                                                    <Grid
+                                                      item
+                                                      xs={12}
+                                                      sm={6}
+                                                      md={2}
+                                                      container
+                                                      direction="column"
+                                                      alignItems="center"
+                                                      justifyContent="center"
+                                                    >
+                                                      <FontAwesomeIcon icon={solid(profile?.social_platform_icon)} size="3x" />
+                                                      <FontAwesomeIcon icon={brands(profile?.social_platform_icon)} size="3x" />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6} md={10} pl={2}>
+                                                      <Stack direction="column" alignItems="left">
+                                                        <Typography variant="h5">{profile?.social_platform_name}</Typography>
+                                                        <Typography variant="h6">@{profile?.username}</Typography>
+                                                      </Stack>
+                                                    </Grid>
+
+                                                    <Grid
+                                                      item
+                                                      xs={12}
+                                                      sm={12}
+                                                      md={3}
+                                                      lg={3}
+                                                      mt={4}
+                                                      style={{ display: 'flex', justifyContent: 'flex-start' }}
+                                                    >
+                                                      <Tooltip title="View">
+                                                        <VisibilityIcon
+                                                          color="dark"
+                                                          onClick={() => handleViewModalOpen(profile)}
+                                                          style={{
+                                                            fontSize: '1.6rem',
+                                                            cursor: !isPublishNowEnabled ? 'pointer' : 'allowed'
+                                                          }}
+                                                        />
+                                                      </Tooltip>
+
+                                                      <Tooltip title="Schedule For Later">
+                                                        <ScheduleIcon
+                                                          color="dark"
+                                                          onClick={() => handleConfirmSchedule(profile)}
+                                                          style={{
+                                                            marginLeft: '11px',
+                                                            cursor: !isPublishNowEnabled ? 'pointer' : 'allowed'
+                                                          }}
+                                                        />
+                                                      </Tooltip>
+
+                                                      <Tooltip title="Publish Now">
+                                                        <TaskAltIcon
+                                                          color="dark"
+                                                          onClick={() => handleConfirmPublish(profile)}
+                                                          style={{
+                                                            marginLeft: '11px',
+                                                            cursor: !isPublishNowEnabled ? 'pointer' : 'allowed'
+                                                          }}
+                                                        />
+                                                      </Tooltip>
+                                                    </Grid>
+                                                  </Grid>
+                                                </Stack>
+                                              </MainCard>
+                                            </Grid>
+                                          ))}
+                                        </Grid>
+                                      )}
+                                    </DialogContent>
+                                    <DialogActions mt={4}>
+                                      <Button onClick={() => setIsModalOpen(false)} color="primary">
+                                        Cancel
+                                      </Button>
+                                    </DialogActions>
+                                  </Dialog>
+                                ) : (
+                                  !connectedLimit && (
+                                    <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                                      <DialogTitle sx={{ fontSize: '1.5rem', height: '75px' }}> Choose your integration</DialogTitle>
+                                      <DialogContent>
+                                        No social media platforms are currently integrated into the system Click{' '}
+                                        <Link
+                                          variant="h6"
+                                          component={RouterLink}
+                                          to="/social-media"
+                                          color="#753CEF"
+                                          style={{ cursor: 'pointer' }}
+                                        >
+                                          {' '}
+                                          here
+                                        </Link>{' '}
+                                        to connect.
+                                      </DialogContent>
+                                      <DialogActions>
+                                        <Button onClick={() => setIsModalOpen(false)} color="primary">
+                                          Cancel
+                                        </Button>
+                                      </DialogActions>
+                                    </Dialog>
+                                  )
+                                )}
+
+                                <Dialog open={scheduleConfirmationModal} onClose={handleCloseScheduleConfirmationModal}>
+                                  <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
+                                    <CircularProgress color="inherit" />
+                                  </Backdrop>
+                                  <DialogTitle>
+                                    Select Date & Time
+                                    <span style={{ color: 'red' }}>*</span>
+                                  </DialogTitle>
+                                  <DialogContent>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                      <StaticDateTimePicker
+                                        value={selectedDateTime}
+                                        onChange={handleDateTimeChange}
+                                        renderInput={(params) => (
+                                          <>
+                                            <TextField {...params} InputProps={{ sx: { borderColor: 'black' } }} />
+                                            <FormHelperText>{error}</FormHelperText>
+                                          </>
+                                        )}
+                                        minDate={minDate}
+                                        componentsProps={{ actionBar: { actions: [] } }}
+                                      />
+                                    </LocalizationProvider>
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <Button onClick={handleCloseScheduleConfirmationModal} color="primary">
+                                      Cancel
+                                    </Button>
+                                    <Button onClick={() => handleScheduleLaterClick(selectedProfile)} color="primary">
+                                      Schedule
+                                    </Button>
+                                  </DialogActions>
+                                </Dialog>
+
+                                {!connectedLimit && (
+                                  <>
+                                    <Dialog open={scheduleMetaConfirmationModal} onClose={handleCloseScheduleConfirmationModal}>
+                                      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
+                                        <CircularProgress color="inherit" />
+                                      </Backdrop>
+                                      <DialogTitle>Select Your Business Profile</DialogTitle>
+                                      <DialogContent>
+                                        <FormControl>
+                                          <RadioGroup
+                                            sx={{ marginTop: '10px' }}
+                                            row
+                                            aria-labelledby="demo-row-radio-buttons-group-label"
+                                            name="row-radio-buttons-group"
+                                            value={selectedMetaAccount}
+                                            onChange={(e) => {
+                                              setSelectedMetaAccount(e.target.value);
+                                              if (e.target.value === 'facebook') {
+                                                setShowFacebookPageDropDown(true);
+                                                setShowInstagramPageDropDown(false);
+                                                getMetaPagesAPI(selectedProfile, 'facebook'); // Adjusted function call
+                                              } else {
+                                                setShowFacebookPageDropDown(false);
+                                                setShowInstagramPageDropDown(true);
+                                                getMetaPagesAPI(selectedProfile, 'instagram'); // Adjusted function call
+                                              }
+                                            }}
+                                          >
+                                            <FormControlLabel value="facebook" control={<Radio />} label="Facebook Business Pages" />
+                                            <FormControlLabel
+                                              sx={{ marginLeft: '25px' }}
+                                              value="instagram"
+                                              control={<Radio />}
+                                              label="Instagram Business Accounts"
+                                            />
+                                          </RadioGroup>
+                                        </FormControl>
+                                        {facebookPages && showFacebookPageDropDown && (
+                                          <FormControl fullWidth sx={{ marginTop: '20px' }}>
+                                            <InputLabel id="demo-simple-select-label">Select Business Pages</InputLabel>
+                                            <Select
+                                              labelId="demo-simple-select-label"
+                                              id="demo-simple-select"
+                                              value={selectedFacebookPage || (facebookPages.length > 0 ? facebookPages[0].id : '')}
+                                              label="Select Page"
+                                              onChange={(e) => selectPageHandle(e)}
+                                            >
+                                              {facebookPages.map((page, index) => (
+                                                <MenuItem key={index} value={page.id}>
+                                                  {page.name}
+                                                </MenuItem>
+                                              ))}
+                                            </Select>
+                                          </FormControl>
+                                        )}
+                                        {facebookPages && showInstagramPageDropDown && (
+                                          <FormControl fullWidth sx={{ marginTop: '20px' }}>
+                                            <InputLabel id="demo-simple-select-label">Select Business Accounts</InputLabel>
+                                            <Select
+                                              labelId="demo-simple-select-label"
+                                              id="demo-simple-select"
+                                              value={selectedFacebookPage || (facebookPages.length > 0 ? facebookPages[0].id : '')}
+                                              label="Select Page"
+                                              onChange={(e) => selectPageHandle(e)}
+                                            >
+                                              {facebookPages.map((page, index) => (
+                                                <MenuItem key={index} value={page.id}>
+                                                  {page.name}
+                                                </MenuItem>
+                                              ))}
+                                            </Select>
+                                          </FormControl>
+                                        )}
+                                        <FormControl fullWidth sx={{ marginTop: '20px' }}>
+                                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                            <StaticDateTimePicker
+                                              value={selectedDateTime}
+                                              onChange={handleDateTimeChange}
+                                              label="Select Date & Time"
+                                              renderInput={(params) => (
+                                                <>
+                                                  <TextField {...params} InputProps={{ sx: { borderColor: 'black' } }} />
+                                                  {error && <FormHelperText>{error}</FormHelperText>}
+                                                  <FormHelperText sx={{ marginTop: '10px' }}>
+                                                    {
+                                                      'Important: The schedule date must be between 10 minutes and 30 days from the time now'
+                                                    }
+                                                  </FormHelperText>
+                                                </>
+                                              )}
+                                              minDate={minDate}
+                                              componentsProps={{ actionBar: { actions: [] } }}
+                                            />
+                                          </LocalizationProvider>
+                                        </FormControl>
+                                      </DialogContent>
+
+                                      <DialogActions>
+                                        <Button onClick={handleCloseScheduleConfirmationModal} color="primary">
+                                          Cancel
+                                        </Button>
+                                        <Button onClick={() => handleScheduleLaterClick(selectedProfile)} color="primary">
+                                          Schedule
+                                        </Button>
+                                      </DialogActions>
+                                    </Dialog>
+                                  </>
+                                )}
+
+                                {/* PUBLISH NOW */}
+
+                                <Dialog
+                                  open={openConfirmationModal && !isWaiting && !connectedLimit}
+                                  onClose={handleCloseConfirmationModal}
+                                >
+                                  <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
+                                    <CircularProgress color="inherit" />
+                                  </Backdrop>
+                                  <DialogTitle>Confirmation</DialogTitle>
+                                  <DialogContent>Are you sure you want to publish now?</DialogContent>
+                                  <DialogActions>
+                                    <Button onClick={handleCloseConfirmationModal} color="primary">
+                                      Cancel
+                                    </Button>
+                                    <Button onClick={() => handlePublishNowClick(selectedProfile)} color="primary">
+                                      Confirm
+                                    </Button>
+                                  </DialogActions>
+                                </Dialog>
+                                {!connectedLimit && (
+                                  <>
+                                    {/* FOR META */}
+                                    <Dialog open={openMetaConfirmationModal} onClose={handleCloseConfirmationModal} fullWidth>
+                                      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loader}>
+                                        <CircularProgress color="inherit" />
+                                      </Backdrop>
+                                      <DialogTitle>Select Your Business Profile</DialogTitle>
+                                      <DialogContent>
+                                        <FormControl>
+                                          <RadioGroup
+                                            sx={{ marginTop: '10px' }}
+                                            row
+                                            aria-labelledby="demo-row-radio-buttons-group-label"
+                                            name="row-radio-buttons-group"
+                                            value={selectedMetaAccount}
+                                            onChange={(e) => {
+                                              setSelectedMetaAccount(e.target.value);
+                                              if (e.target.value === 'facebook') {
+                                                setShowFacebookPageDropDown(true);
+                                                setShowInstagramPageDropDown(false);
+                                                getMetaPagesAPI(selectedProfile, 'facebook'); // Adjusted function call
+                                              } else {
+                                                setShowFacebookPageDropDown(false);
+                                                setShowInstagramPageDropDown(true);
+                                                getMetaPagesAPI(selectedProfile, 'instagram'); // Adjusted function call
+                                              }
+                                            }}
+                                          >
+                                            <FormControlLabel value="facebook" control={<Radio />} label="Facebook Business Pages" />
+                                            <FormControlLabel
+                                              sx={{ marginLeft: '25px' }}
+                                              value="instagram"
+                                              control={<Radio />}
+                                              label="Instagram Business Accounts"
+                                            />
+                                          </RadioGroup>
+                                        </FormControl>
+                                      </DialogContent>
+
+                                      {facebookPages && showFacebookPageDropDown && (
+                                        <DialogContent>
+                                          <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label">Select Business Pages</InputLabel>
+                                            <Select
+                                              labelId="demo-simple-select-label"
+                                              id="demo-simple-select"
+                                              value={selectedFacebookPage || (facebookPages && facebookPages.length && facebookPages[0].id)}
+                                              label="Select Page"
+                                              onChange={(e) => selectPageHandle(e)}
+                                            >
+                                              {facebookPages.map((page, index) => (
+                                                <MenuItem key={index} value={page.id}>
+                                                  {page.name}
+                                                </MenuItem>
+                                              ))}
+                                            </Select>
+                                          </FormControl>
+                                        </DialogContent>
+                                      )}
+                                      {facebookPages && showInstagramPageDropDown && (
+                                        <DialogContent>
+                                          <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label">Select Business Accounts</InputLabel>
+                                            <Select
+                                              labelId="demo-simple-select-label"
+                                              id="demo-simple-select"
+                                              value={selectedFacebookPage || (facebookPages && facebookPages.length && facebookPages[0].id)}
+                                              label="Select Page"
+                                              onChange={(e) => selectPageHandle(e)}
+                                            >
+                                              {facebookPages.map((page, index) => (
+                                                <MenuItem key={index} value={page.id}>
+                                                  {page.name}
+                                                </MenuItem>
+                                              ))}
+                                            </Select>
+                                          </FormControl>
+                                        </DialogContent>
+                                      )}
+                                      <DialogActions>
+                                        <Button onClick={handleCloseConfirmationModal} color="primary">
+                                          Cancel
+                                        </Button>
+                                        <Button onClick={() => handlePublishNowClick(selectedProfile)} color="primary">
+                                          Confirm
+                                        </Button>
+                                      </DialogActions>
+                                    </Dialog>
+                                  </>
+                                )}
+
+                                <Dialog open={isViewModalOpen} onClose={handleViewModalClose}>
+                                  <DialogContent>
+                                    <CustomView profile={selectedProfile} />
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <Button onClick={handleViewModalClose} color="primary">
+                                      Cancel
+                                    </Button>
+                                  </DialogActions>
+                                </Dialog>
+                              </Stack>
+                            </Grid>
+                          </Grid>
+                        </MainCard>
+                      </Grid>
+                      <Grid item xs={12} marginTop={5}>
+                        <MainCard title="Events History" content={false}>
+                          <SimpleBar style={{ maxHeight: '350px' }}>
+                            <CardContent>
+                              <Grid container spacing={3} alignItems="center">
+                                {eventsHistory?.events?.length > 0 &&
+                                  eventsHistory?.events?.map((val, index) => {
+                                    return (
+                                      <Grid item xs={12} key={index}>
                                         <Grid container spacing={2}>
                                           <Grid item xs zeroMinWidth>
-                                            <Typography align="left" variant="caption" color="secondary">
-                                              {moment(val?.timestamp).format('MMMM Do YYYY, H:mm:ss a')}
+                                            <Typography align="left" variant="subtitle1">
+                                              {capitalizeString(val?.event)}
+                                              {(val?.event === 'published' || val?.event === 'scheduled') && (
+                                                <>
+                                                  {' '}
+                                                  -
+                                                  <Typography align="left" variant="caption" color="primary">
+                                                    {' '}
+                                                    {val?.published_platform}
+                                                  </Typography>
+                                                  <Typography align="left" variant="caption">
+                                                    {' '}
+                                                    @{val?.platform_username}
+                                                  </Typography>
+                                                </>
+                                              )}
                                             </Typography>
+                                            <Grid container spacing={2}>
+                                              <Grid item xs zeroMinWidth>
+                                                <Typography align="left" variant="caption" color="secondary">
+                                                  {moment(val?.timestamp).format('MMMM Do YYYY, H:mm:ss a')}
+                                                </Typography>
+                                              </Grid>
+                                            </Grid>
                                           </Grid>
                                         </Grid>
                                       </Grid>
-                                    </Grid>
-                                  </Grid>
-                                );
-                              })}
-                          </Grid>
-                        </CardContent>
-                      </SimpleBar>
-                    </MainCard>
+                                    );
+                                  })}
+                              </Grid>
+                            </CardContent>
+                          </SimpleBar>
+                        </MainCard>
+                      </Grid>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Grid>
-            </>
+                </>
+              )}
+            </Grid>
           )}
-        </Grid>
+        </>
       )}
-</>)}
-   
     </>
   );
 };

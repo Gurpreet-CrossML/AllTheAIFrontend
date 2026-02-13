@@ -14,7 +14,17 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, 'imageSlice/updateImageResponse', 'imageSlice/displayImageResponse', 'imageSlice/updateDisableUpload'],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+          'imageSlice/updateImageResponse',
+          'imageSlice/displayImageResponse',
+          'imageSlice/updateDisableUpload'
+        ],
         ignoredPaths: ['slice.image', 'slice.responseImg', 'slice.disableUpload']
       }
     })

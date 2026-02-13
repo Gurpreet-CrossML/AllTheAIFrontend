@@ -65,10 +65,9 @@ export const FirebaseProvider = ({ children }) => {
     [dispatch]
   );
 
-
   const firebaseEmailPasswordSignIn = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password);
-  }
+  };
 
   const firebaseGoogleSignIn = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -93,7 +92,7 @@ export const FirebaseProvider = ({ children }) => {
     await firebase.auth().sendPasswordResetEmail(email);
   };
 
-  const updateProfile = () => { };
+  const updateProfile = () => {};
   if (state.isInitialized !== undefined && !state.isInitialized) {
     return <Loader />;
   }
@@ -104,7 +103,7 @@ export const FirebaseProvider = ({ children }) => {
         ...state,
         firebaseRegister,
         firebaseEmailPasswordSignIn,
-        login: () => { },
+        login: () => {},
         firebaseGoogleSignIn,
         firebaseTwitterSignIn,
         firebaseFacebookSignIn,

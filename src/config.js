@@ -10,48 +10,51 @@ export const LAYOUT_CONST = {
 };
 
 export const APP_DEFAULT_PATH = '/auth/login';
-export const DASHBOARD_PAGE = "/dashboard";
+export const DASHBOARD_PAGE = '/dashboard';
 export const HORIZONTAL_MAX_ITEM = 6;
 export const DRAWER_WIDTH = 260;
-export const ALLTHEAI = "contentIQ";
+export const ALLTHEAI = 'contentIQ';
 
 // API URL
 
-export const BETA_URL = "https://app.allthe.ai/"
-export const LOCAL_URL = 'http://localhost:3001/'
+export const BETA_URL = 'https://app.allthe.ai/';
+export const LOCAL_URL = 'http://localhost:3001/';
 // export const BASE_URL = 'https://api-dev.allthe.ai/'
-export const BASE_URL = 'https://contentiq.crossml.in/'
+export const BASE_URL = 'https://contentiq.crossml.in/';
 
 export const authToken = localStorage.getItem('token');
 
 export const LoaderWrap = styled('div')(() => ({
   top: 0,
   left: 0,
-  height: "100vh",
+  height: '100vh',
   zIndex: 2001,
-  width: '100%',
+  width: '100%'
 }));
 
 /**
  * @method [handleTruncate] to truncate the string
- * @param {String} str 
- * @returns 
+ * @param {String} str
+ * @returns
  */
 export const handleTruncate = (str) => { //eslint-disable-line
   if (str && str.length > 60) {
-    return str.substring(0, 60) + "...";
+    return str.substring(0, 60) + '...';
   }
   return str;
-}
+};
 /**
- * 
- * @param {String} str 
+ *
+ * @param {String} str
  */
 export const capitalizeString = (str) => {
-  return str?.split("_")?.map(str => str.charAt(0).toUpperCase() + str.slice(1)).join(" ") || "";
-}
-
-
+  return (
+    str
+      ?.split('_')
+      ?.map((str) => str.charAt(0).toUpperCase() + str.slice(1))
+      .join(' ') || ''
+  );
+};
 
 // ==============================|| THEME CONFIG  ||============================== //
 

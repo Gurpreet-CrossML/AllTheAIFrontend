@@ -4,7 +4,7 @@ import ScrollX from 'components/ScrollX';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import {filterChange, historyOfContent, pageChange, pageSize } from '_api/contents';
+import { filterChange, historyOfContent, pageChange, pageSize } from '_api/contents';
 import { string } from 'prop-types';
 import { useNavigate } from 'react-router';
 import { handleTruncate } from 'config';
@@ -13,7 +13,6 @@ import { CustomDataGrid } from 'utils/helper';
 import { GridToolbarContainer, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { error429 } from 'pages/maintenance/ErrorMessage';
 import toast from 'utils/ToastNotistack';
-
 
 /**
  * Status Cell
@@ -120,42 +119,41 @@ const ContentHistory = () => {
     }
   ];
 
-/**
- * @method [getHistoryOfGeneratedContent] use to get the content of the history of all generated content
- */
-const getHistoryOfGeneratedContent = async () => {
-  try {
-    /*API Promise */
-    setIsLoading(true);
-    const response = await historyOfContent();
+  /**
+   * @method [getHistoryOfGeneratedContent] use to get the content of the history of all generated content
+   */
+  const getHistoryOfGeneratedContent = async () => {
+    try {
+      /*API Promise */
+      setIsLoading(true);
+      const response = await historyOfContent();
 
-    if (response.status === 200) {
+      if (response.status === 200) {
+        setIsLoading(false);
+        setContentHistory(response.data.data.results);
+        setCount(response.data.data.count);
+        setPreviousPageUrl(response.data.data.previous);
+        setNextPageUrl(response.data.data.next);
+      }
+    } catch (error) {
       setIsLoading(false);
-      setContentHistory(response.data.data.results);
-      setCount(response.data.data.count);
-      setPreviousPageUrl(response.data.data.previous);
-      setNextPageUrl(response.data.data.next);
-    }
-  } catch (error) {
-    setIsLoading(false);
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
-      } else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
-
+  };
 
   /**
    *
@@ -181,116 +179,111 @@ const getHistoryOfGeneratedContent = async () => {
     );
   }
 
- /**
- * @method [onFilterChange] to handle the
- * @param {Object} value
- */
-const onFilterChange = async (value) => {
-  try {
-    const searchText = value.quickFilterValues.length > 0 ? value.quickFilterValues.join(' ') : '';
-    setQuickFilterValue(value.quickFilterValues);
+  /**
+   * @method [onFilterChange] to handle the
+   * @param {Object} value
+   */
+  const onFilterChange = async (value) => {
+    try {
+      const searchText = value.quickFilterValues.length > 0 ? value.quickFilterValues.join(' ') : '';
+      setQuickFilterValue(value.quickFilterValues);
 
-    const res = await filterChange(searchText);
+      const res = await filterChange(searchText);
 
-    if (res?.data?.data.results?.length > 0) {
-      const arrItems = res?.data?.data?.results;
-      setContentHistory(arrItems);
-      setCount(res.data.data.count);
+      if (res?.data?.data.results?.length > 0) {
+        const arrItems = res?.data?.data?.results;
+        setContentHistory(arrItems);
+        setCount(res.data.data.count);
 
-      setPreviousPageUrl(res.data.data.previous);
-      setNextPageUrl(res.data.data.next);
-      setMuiTableKey((prevKey) => prevKey + 1);
-    } else {
-      setContentHistory(res?.data?.data?.results);
+        setPreviousPageUrl(res.data.data.previous);
+        setNextPageUrl(res.data.data.next);
+        setMuiTableKey((prevKey) => prevKey + 1);
+      } else {
+        setContentHistory(res?.data?.data?.results);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === '401') {
+        localStorage.clear();
+        navigate('/auth/login'); // Redirect to the login page if the token is invalid
+      } else if (error.response.status === 429) {
+        toast(error429, {
+          variant: 'error'
+        });
+      }
+      toast.error(error?.response?.data?.message);
     }
-  } catch (error) {
-    if (error.response && error.response.status === '401') {
-      localStorage.clear();
-      navigate('/auth/login'); // Redirect to the login page if the token is invalid
-    }
-    else if (error.response.status === 429) { 
-      toast(error429, {
-        variant: 'error'
-      });
-    }
-    toast.error(error?.response?.data?.message);
-  }
-};
-
+  };
 
   /**
- * @method [onPageChange] to change the page for data
- * @param {Object} data
- */
-const onPageChange = async (data) => {
-  try {
-    let url;
-    if (data < currentPage) {
-      url = previousPageUrl;
-    } else {
-      url = nextPageUrl;
+   * @method [onPageChange] to change the page for data
+   * @param {Object} data
+   */
+  const onPageChange = async (data) => {
+    try {
+      let url;
+      if (data < currentPage) {
+        url = previousPageUrl;
+      } else {
+        url = nextPageUrl;
+      }
+
+      const res = await pageChange(url);
+
+      if (res?.data?.data.results.length > 0) {
+        const arrItems = res?.data?.data.results;
+        setContentHistory(arrItems);
+        setCount(res.data.data.count);
+
+        setPreviousPageUrl(res.data.data.previous);
+        setNextPageUrl(res.data.data.next);
+
+        setCurrentPage(data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === '401') {
+        localStorage.clear();
+        navigate('/auth/login'); // Redirect to the login page if the token is invalid
+      } else if (error.response.status === 429) {
+        toast(error429, {
+          variant: 'error'
+        });
+      }
+      toast.error(error?.response?.data?.message);
     }
+  };
 
-    const res = await pageChange(url);
+  /**
+   * @method [onPageSizeChange] to change the size of page
+   * @param {Object} data
+   */
+  const onPageSizeChange = async (data) => {
+    try {
+      setCurrentPageSize(data);
 
-    if (res?.data?.data.results.length > 0) {
-      const arrItems = res?.data?.data.results;
-      setContentHistory(arrItems);
-      setCount(res.data.data.count);
+      const res = await pageSize(data);
 
-      setPreviousPageUrl(res.data.data.previous);
-      setNextPageUrl(res.data.data.next);
+      if (res?.data?.data.results.length > 0) {
+        const arrItems = res?.data?.data.results;
+        setContentHistory(arrItems);
+        setCount(res.data.data.count);
 
-      setCurrentPage(data);
+        setPreviousPageUrl(res.data.data.previous);
+        setNextPageUrl(res.data.data.next);
+        setCurrentPage(0);
+        setMuiTableKey((prevKey) => prevKey + 1);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === '401') {
+        localStorage.clear();
+        navigate('/auth/login'); // Redirect to the login page if the token is invalid
+      } else if (error.response.status === 429) {
+        toast(error429, {
+          variant: 'error'
+        });
+      }
+      toast.error(error?.response?.data?.message);
     }
-  } catch (error) {
-    if (error.response && error.response.status === '401') {
-      localStorage.clear();
-      navigate('/auth/login'); // Redirect to the login page if the token is invalid
-    }
-    else if (error.response.status === 429) { 
-      toast(error429, {
-        variant: 'error'
-      });
-    }
-    toast.error(error?.response?.data?.message);
-  }
-};
-
-/**
- * @method [onPageSizeChange] to change the size of page
- * @param {Object} data
- */
-const onPageSizeChange = async (data) => {
-  try {
-    setCurrentPageSize(data);
-
-    const res = await pageSize(data);
-
-    if (res?.data?.data.results.length > 0) {
-      const arrItems = res?.data?.data.results;
-      setContentHistory(arrItems);
-      setCount(res.data.data.count);
-
-      setPreviousPageUrl(res.data.data.previous);
-      setNextPageUrl(res.data.data.next);
-      setCurrentPage(0);
-      setMuiTableKey((prevKey) => prevKey + 1);
-    }
-  } catch (error) {
-    if (error.response && error.response.status === '401') {
-      localStorage.clear();
-      navigate('/auth/login'); // Redirect to the login page if the token is invalid
-    }
-    else if (error.response.status === 429) { 
-      toast(error429, {
-        variant: 'error'
-      });
-    }
-    toast.error(error?.response?.data?.message);
-  }
-};
-
+  };
 
   /**
    * @method [onRowClick] to handle row click for navigation
@@ -312,60 +305,60 @@ const onPageSizeChange = async (data) => {
       {!rateLimit && (
         <>
           <Grid container spacing={3}>
-        <Grid item xs={12} sx={{ marginTop: '10px' }}>
-          <MainCard content={false}>
-            <ScrollX>
-              {/* Content history table */}
-              <CustomDataGrid
-                key={muiTableKey}
-                columns={columns}
-                rows={contentHistory?.length > 0 ? contentHistory : []}
-                loading={isLoading}
-                onRowClick={onRowClick}
-                components={{
-                  Toolbar: CustomToolbar,
-                  NoResultsOverlay: () => (
-                    <Stack height="100%" alignItems="center" justifyContent="center">
-                      No record found
-                    </Stack>
-                  ),
-                  NoRowsOverlay: () => (
-                    <Stack height="100%" alignItems="center" justifyContent="center">
-                      No record found
-                    </Stack>
-                  )
-                }}
-                autoHeight={true}
-                getRowId={(row) => row?.content_id}
-                rowCount={count}
-                getRowHeight={() => 'auto'}
-                disableSelectionOnClick={true}
-                pagination
-                paginationMode="server"
-                filterMode="server"
-                onFilterModelChange={onFilterChange}
-                onPageChange={(data) => {
-                  onPageChange(data);
-                }}
-                onPageSizeChange={(data) => {
-                  onPageSizeChange(data);
-                }}
-                initialState={{
-                  pagination: {
-                    pageSize: currentPageSize
-                  },
-                  filter: {
-                    filterModel: {
-                      items: [],
-                      quickFilterValues: quickFilterValue
-                    }
-                  }
-                }}
-              />
-            </ScrollX>
-          </MainCard>
-        </Grid>
-      </Grid>
+            <Grid item xs={12} sx={{ marginTop: '10px' }}>
+              <MainCard content={false}>
+                <ScrollX>
+                  {/* Content history table */}
+                  <CustomDataGrid
+                    key={muiTableKey}
+                    columns={columns}
+                    rows={contentHistory?.length > 0 ? contentHistory : []}
+                    loading={isLoading}
+                    onRowClick={onRowClick}
+                    components={{
+                      Toolbar: CustomToolbar,
+                      NoResultsOverlay: () => (
+                        <Stack height="100%" alignItems="center" justifyContent="center">
+                          No record found
+                        </Stack>
+                      ),
+                      NoRowsOverlay: () => (
+                        <Stack height="100%" alignItems="center" justifyContent="center">
+                          No record found
+                        </Stack>
+                      )
+                    }}
+                    autoHeight={true}
+                    getRowId={(row) => row?.content_id}
+                    rowCount={count}
+                    getRowHeight={() => 'auto'}
+                    disableSelectionOnClick={true}
+                    pagination
+                    paginationMode="server"
+                    filterMode="server"
+                    onFilterModelChange={onFilterChange}
+                    onPageChange={(data) => {
+                      onPageChange(data);
+                    }}
+                    onPageSizeChange={(data) => {
+                      onPageSizeChange(data);
+                    }}
+                    initialState={{
+                      pagination: {
+                        pageSize: currentPageSize
+                      },
+                      filter: {
+                        filterModel: {
+                          items: [],
+                          quickFilterValues: quickFilterValue
+                        }
+                      }
+                    }}
+                  />
+                </ScrollX>
+              </MainCard>
+            </Grid>
+          </Grid>
         </>
       )}
     </>

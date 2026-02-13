@@ -59,7 +59,7 @@ export const filterChange = (searchText) => {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${authToken}`
   };
-  return axios.get(`${BASE_URL}api/billing/transaction/?search=${searchText}`,{ headers: headers });
+  return axios.get(`${BASE_URL}api/billing/transaction/?search=${searchText}`, { headers: headers });
 };
 
 /**

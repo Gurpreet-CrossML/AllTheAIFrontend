@@ -9,13 +9,12 @@ import AuthResetPassword from 'sections/auth/auth-forms/AuthResetPassword';
 // ================================|| RESET PASSWORD ||================================ //
 
 const ResetPassword = () => {
-
   useEffect(() => {
     /**
      * Set the Page Title
      */
     document.title = `Reset Password | ${ALLTHEAI}`;
-  }, [])
+  }, []);
 
   return (
     <AuthWrapper>
@@ -31,7 +30,7 @@ const ResetPassword = () => {
         </Grid>
       </Grid>
     </AuthWrapper>
-  )
-}
+  );
+};
 
 export default ResetPassword;

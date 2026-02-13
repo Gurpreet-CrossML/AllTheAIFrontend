@@ -67,8 +67,6 @@ export function getUserChats(user) {
   };
 }
 
-
-
 export function getUsers() {
   return async () => {
     try {

@@ -1,12 +1,10 @@
-//end-points for auth module 
+//end-points for auth module
 export const getProfile = 'api/auth/profile/';
 export const authRegister = 'api/auth/register/';
 export const authLogin = 'api/auth/login/';
 export const authLogout = 'api/auth/logout/';
 export const authforgotPassword = 'api/auth/forgot_password/';
 export const verfiyAuthForgotPassword = 'api/auth/verify_forgot_password/';
-
-
 
 //end-points for billing details
 export const getSubscription = 'api/billing/pricing/';
@@ -15,7 +13,6 @@ export const subscriptionCancel = 'api/billing/subscription/cancel/';
 export const billingDetails = 'api/billing/details/';
 export const billingAddress = 'api/billing/address/';
 export const billingCheckout = 'api/billing/checkout/';
-
 
 // end-points for Content Generation Module
 export const contentTemplate = 'api/content_generation/templates/';
@@ -30,7 +27,6 @@ export const contentPageSize = 'api/content_generation/generated_content/history
 export const templateCategory = 'api/content_generation/templates/?cat=';
 export const pageSizeHistory = 'api/content_generation/generated_content/history/?page_size=10';
 
-
 //end-points for Image Generation Module
 export const imageGenerate = 'api/image_generation/generate/image/';
 export const imageList = 'api/image_generation/generated_image/history/';
@@ -41,8 +37,6 @@ export const imgTemplate = 'api/image_generation/image/templates/';
 export const pageSizeImg = 'api/image_generation/generated_image/history/?page_size=';
 export const pageChangeImg = 'api/image_generation/generated_image/history/?page=';
 export const filterChangeImg = 'api/image_generation/generated_image/history/?search=';
-
-
 
 //end-points for Persona Module
 export const personaList = 'api/persona/';
@@ -61,8 +55,6 @@ export const pagePersona = 'api/persona/?page=';
 export const pageSizePersonna = 'api/persona/?page_size=';
 export const personaDropdown = 'api/persona/?page_size=all&persona_status=active';
 
-
-
 //end-points for Social-Media Module
 export const SocialMediaTemplate = 'api/social/platforms/';
 export const createSchedule = 'api/social/schedule/create/';
@@ -76,7 +68,6 @@ export const twitterConnect = 'api/social/twitter/connect/';
 export const facebookConnect = 'api/social/meta/connect/';
 export const facebookPage = 'api/social/facebook/pages/';
 export const instagramPage = 'api/social/meta/instagram_business_account/';
-
 
 //end-points for Transaction Module
 export const transactionList = 'api/billing/transaction/';

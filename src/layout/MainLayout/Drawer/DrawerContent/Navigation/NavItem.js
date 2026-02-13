@@ -61,20 +61,20 @@ const NavItem = ({ item, level }) => {
       dispatch(activeItem({ openItem: [item.id] }));
     }
 
-    if (pathname.includes("/content-events")) {
-      dispatch(activeItem({ openItem: ["content-history"] }));
+    if (pathname.includes('/content-events')) {
+      dispatch(activeItem({ openItem: ['content-history'] }));
     }
-    
-    if (pathname.includes("/content-generation")) {
-      dispatch(activeItem({ openItem: ["choose-template"] }));
+
+    if (pathname.includes('/content-generation')) {
+      dispatch(activeItem({ openItem: ['choose-template'] }));
     }
-    
-    if (pathname.includes("/generate-image")) {
-      dispatch(activeItem({ openItem: ["image-template"] }));
+
+    if (pathname.includes('/generate-image')) {
+      dispatch(activeItem({ openItem: ['image-template'] }));
     }
-    
-    if (pathname.includes("/image_detail")) {
-      dispatch(activeItem({ openItem: ["image-history"] }));
+
+    if (pathname.includes('/image_detail')) {
+      dispatch(activeItem({ openItem: ['image-history'] }));
     }
     // eslint-disable-next-line
   }, [pathname]);

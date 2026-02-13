@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
 // ==============================|| AUTH GUARD ||============================== //
 
 const AuthGuard = ({ children }) => {
-
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

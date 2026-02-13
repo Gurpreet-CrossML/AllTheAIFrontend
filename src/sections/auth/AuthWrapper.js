@@ -24,12 +24,7 @@ const AuthWrapper = ({ children }) => (
     >
       <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
         <Box display="flex" alignItems="center" gap={1}>
-          <img
-            src="/assets/images/logoiconalltheai.png"
-            alt="logo icon"
-            width={32}
-            height={32}
-          />
+          <img src="/assets/images/logoiconalltheai.png" alt="logo icon" width={32} height={32} />
           <Box
             component="span"
             sx={{

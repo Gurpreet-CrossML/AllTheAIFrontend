@@ -52,11 +52,11 @@ const Notistack = ({ children }) => {
       iconVariant={
         snackbar.iconVariant === 'useemojis'
           ? {
-            success: <CheckCircleOutlined style={iconSX} />,
-            error: <CloseCircleOutlined style={iconSX} />,
-            warning: <WarningOutlined style={iconSX} />,
-            info: <InfoCircleOutlined style={iconSX} />
-          }
+              success: <CheckCircleOutlined style={iconSX} />,
+              error: <CloseCircleOutlined style={iconSX} />,
+              warning: <WarningOutlined style={iconSX} />,
+              info: <InfoCircleOutlined style={iconSX} />
+            }
           : undefined
       }
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -67,11 +67,13 @@ const Notistack = ({ children }) => {
           size="medium"
           onClick={onClose(key)}
           sx={{
-            p: 0.5, color: "#fff",
-            "&:hover": {
-              backgroundColor: "transparent"
-            },
-          }}>
+            p: 0.5,
+            color: '#fff',
+            '&:hover': {
+              backgroundColor: 'transparent'
+            }
+          }}
+        >
           <CloseCircleOutlined />
         </IconButton>
       )}

@@ -1,7 +1,6 @@
 // material-ui
 import { styled } from '@mui/material/styles';
 
-
 // ==============================|| CALENDAR - STYLED ||============================== //
 
 const ExperimentalStyled = styled('div')(({ theme }) => ({
@@ -21,11 +20,9 @@ const ExperimentalStyled = styled('div')(({ theme }) => ({
     overflow: 'hidden !important'
   },
 
-  
-  '& .clickable-event':{
-    cursor: 'pointer',
+  '& .clickable-event': {
+    cursor: 'pointer'
   },
-
 
   // basic style
   '& .fc': {
@@ -80,7 +77,7 @@ const ExperimentalStyled = styled('div')(({ theme }) => ({
     borderRadius: 6,
     zIndex: 1200,
     width: '100%',
-    left: '0 !important',
+    left: '0 !important'
   },
 
   '& .fc .fc-more-popover .fc-popover-body': {
@@ -114,16 +111,16 @@ const ExperimentalStyled = styled('div')(({ theme }) => ({
   //   cursor: 'pointer'
   // },
 
-      // Customize event colors
-      '& .fc-event': {
-        backgroundColor: '#6A5DE3', // Set your desired background color
-        borderColor: '#6A5DE3', // Set your desired border color
-        color: '#ffffff', // Set your desired text color
-      },
+  // Customize event colors
+  '& .fc-event': {
+    backgroundColor: '#6A5DE3', // Set your desired background color
+    borderColor: '#6A5DE3', // Set your desired border color
+    color: '#ffffff' // Set your desired text color
+  },
 
   '& .fc .fc-list-event:hover td': {
     cursor: 'pointer',
-    backgroundColor:'#6A5DE3'
+    backgroundColor: '#6A5DE3'
   },
 
   '& .fc-timegrid-event-harness-inset .fc-timegrid-event, .fc-timegrid-event.fc-event-mirror, .fc-timegrid-more-link': {

@@ -120,11 +120,11 @@ const dashboard = {
     },
     {
       id: 'calendar',
-      title: <FormattedMessage id="calendar"  />,
+      title: <FormattedMessage id="calendar" />,
       type: 'item',
       url: '/scheduler',
       icon: icons.CalendarOutlined
-    },
+    }
 
     // {
     //   id: 'subscribe-plan',
@@ -141,8 +141,6 @@ const dashboard = {
     //   url: '/transaction-history',
     //   icon: icons.TransactionOutlined
     // },
-   
   ]
 };
 export default dashboard;
-

@@ -10,7 +10,7 @@ const initialState = {
   isModalOpen: false,
   selectedEventId: null,
   selectedRange: null,
-  rateLimit: false,
+  rateLimit: false
 };
 
 const calendar = createSlice({
@@ -50,7 +50,7 @@ const calendar = createSlice({
     },
     setRateLimit(state, action) {
       state.rateLimit = action.payload;
-    },
+    }
   }
 });
 
@@ -62,11 +62,10 @@ export const getEvents = () => {
   return async (dispatch) => {
     try {
       dispatch(calendar.actions.loading());
-      const response = await socialEventList()
+      const response = await socialEventList();
       const events = response && response.data ? response.data.data : [];
       dispatch(calendar.actions.setEvents(events));
-    } catch (error)
-     {
+    } catch (error) {
       dispatch(calendar.actions.hasError(error));
       if (error.response && error.response.status === 429) {
         toast(error429, {

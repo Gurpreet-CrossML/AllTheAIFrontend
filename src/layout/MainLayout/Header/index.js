@@ -32,7 +32,7 @@ const Header = ({ open, handleDrawerToggle }) => {
 
   // common header
   const mainHeader = (
-    <Toolbar sx={{ justifyContent: 'space-between' }} >
+    <Toolbar sx={{ justifyContent: 'space-between' }}>
       {!isHorizontal ? (
         <IconButton
           aria-label="open drawer"

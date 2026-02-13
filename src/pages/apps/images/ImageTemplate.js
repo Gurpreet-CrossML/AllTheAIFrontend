@@ -10,14 +10,13 @@ import { error429 } from 'pages/maintenance/ErrorMessage';
 import { useNavigate } from 'react-router';
 import { pickaTemplate } from '_api/image-generation';
 
-
 const ImageTemplate = () => {
   const navigate = useNavigate();
   const [pickTemplate, setPickedTemplate] = useState([]);
   const [loader, setLoader] = useState(false);
   const [errorPage, setErrorPage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const[rateLimit, setRateLimit]= useState(false);
+  const [rateLimit, setRateLimit] = useState(false);
 
   useEffect(() => {
     document.title = `Choose Image Template | ${ALLTHEAI}`;
@@ -25,49 +24,46 @@ const ImageTemplate = () => {
   }, []);
 
   /**
- * @method [getTemplatesDetails] use to get the list of the templates
- */
-const getTemplatesDetails = async () => {
-  try {
-    setLoader(true);
-    const response = await pickaTemplate();
-    setLoader(false);
+   * @method [getTemplatesDetails] use to get the list of the templates
+   */
+  const getTemplatesDetails = async () => {
+    try {
+      setLoader(true);
+      const response = await pickaTemplate();
+      setLoader(false);
 
-    if (response?.data?.status === 'success') {
-      setPickedTemplate(response?.data?.data);
-      setErrorPage(false);
-    } else if (response?.data?.status === 'error') {
-      setErrorPage(true);
-    }
-  } catch (error) {
-    setLoader(false);
-
-    if (error.response) {
-      if (error.response.status === 404) {
-        setErrorMessage(true);
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-      } else if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); // Redirect to the login page if the token is invalid
-      }
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else if (error.response.data.status === 'error') {
+      if (response?.data?.status === 'success') {
+        setPickedTemplate(response?.data?.data);
+        setErrorPage(false);
+      } else if (response?.data?.status === 'error') {
         setErrorPage(true);
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
       }
-    } 
-  }
-};
+    } catch (error) {
+      setLoader(false);
 
+      if (error.response) {
+        if (error.response.status === 404) {
+          setErrorMessage(true);
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        } else if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login'); // Redirect to the login page if the token is invalid
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else if (error.response.data.status === 'error') {
+          setErrorPage(true);
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -77,7 +73,7 @@ const getTemplatesDetails = async () => {
       <Typography variant="h2" marginBottom={3}>
         Choose Image Template
       </Typography>
-      
+
       <Grid container rowSpacing={4.5} columnSpacing={3}>
         {errorMessage === true && (
           <>
@@ -99,7 +95,8 @@ const getTemplatesDetails = async () => {
         )}
 
         {/* row 1 */}
-        {!loader && !rateLimit &&
+        {!loader &&
+          !rateLimit &&
           !errorPage &&
           pickTemplate?.length > 0 &&
           pickTemplate.map((val, index) => {

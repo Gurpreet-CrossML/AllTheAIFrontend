@@ -60,7 +60,7 @@ const AddPersonna = () => {
 
   const [idBasedRecord, setIdBasedRecord] = useState({});
   const [selectedOption, setSelectedOption] = useState(null);
-  const [rateLimit, setRateLimit]= useState(false);
+  const [rateLimit, setRateLimit] = useState(false);
 
   useEffect(() => {
     document.title = `Add Persona | ${ALLTHEAI}`;
@@ -81,52 +81,49 @@ const AddPersonna = () => {
     }
   }, [id]);
 
-/**
- * @method
- */
-const getIdBasedPersona = async () => {
-  try {
-    setIsLoading(true);
+  /**
+   * @method
+   */
+  const getIdBasedPersona = async () => {
+    try {
+      setIsLoading(true);
 
-    const response = await getPersonaDetailsById(id);
+      const response = await getPersonaDetailsById(id);
 
-    /* Industry List */
-    setIsLoading(false);
-    setIdBasedRecord(response.data.data);
+      /* Industry List */
+      setIsLoading(false);
+      setIdBasedRecord(response.data.data);
 
-    // Update formData state without mutating it directly
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      name: response.data.data.name,
-      description: response.data.data.description,
-      keywords: response.data.data.keywords,
-      competitors: response.data.data.competitors,
-      goals_objectives: response.data.data.goals_objectives,
-    }));
-  } catch (error) {
-    setIsLoading(false);
+      // Update formData state without mutating it directly
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        name: response.data.data.name,
+        description: response.data.data.description,
+        keywords: response.data.data.keywords,
+        competitors: response.data.data.competitors,
+        goals_objectives: response.data.data.goals_objectives
+      }));
+    } catch (error) {
+      setIsLoading(false);
 
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } 
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-        setIsStatic(true)
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+          setIsStatic(true);
+        }
       }
     }
-  }
-};
-
+  };
 
   useEffect(() => {
     if (Object.keys(idBasedRecord).length > 0) {
@@ -140,188 +137,173 @@ const getIdBasedPersona = async () => {
     }
   }, [idBasedRecord]);
 
-/**
- * @method [getAudienceList] use to get the audience list from the server
- */
-const getAudienceList = async () => {
-  try {
-    const response = await getTargetAudience();
+  /**
+   * @method [getAudienceList] use to get the audience list from the server
+   */
+  const getAudienceList = async () => {
+    try {
+      const response = await getTargetAudience();
 
-    if (response?.data?.data?.length > 0) {
-      const vList = response.data.data.map((item) => ({
-        id: item.id,
-        label: item.name,
-      }));
+      if (response?.data?.data?.length > 0) {
+        const vList = response.data.data.map((item) => ({
+          id: item.id,
+          label: item.name
+        }));
 
-      setTargetAudience(vList);
-    }
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
+        setTargetAudience(vList);
       }
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-      }
-    }
-  }
-};
-
- /**
- * @method [getTonesList] use to get the tones for the persona
- */
-const getTonesList = async () => {
-  try {
-    setIsLoading(true);
-    const response = await getTones();
-    setIsLoading(false);
-
-    if (response.data.data.length > 0) {
-      const toneArr = response.data.data.map((item) => ({
-        id: item.id,
-        label: item.name,
-      }));
-
-      setTonesList(toneArr);
-    }
-  } catch (error) {
-    setIsLoading(false);
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } 
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
-
-
- /**
- * @method [getIndustriesList] to fetch the industries list from the server
- */
-const getIndustriesList = async () => {
-  try {
-    const response = await getPersonaIndustryList();
-    setIndustryList(response.data.data);
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } 
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-      }
-    }
-  }
-};
-
- /**
- * @method [getPersonaTypeList] to fetch the persona types list from the server
- */
-const getPersonaTypeList = async () => {
-  try {
-    const response = await getPersonaTypes();
-    setPersonaTypes(response.data.data);
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      } 
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-      }
-    }
-  }
-};
-
-
-/**
- * @method [handleSubmit] use to submit the form with various information related to persona
- */
-const handleSubmit = async (event) => {
-  event.preventDefault();
-
-  // Extract ids using map and arrow functions
-  const newTarget = audi.map((item) => item.id);
-  const newTone = toneSelect.map((item) => item.id);
-
-  const params = {
-    competitors: formData.competitors,
-    keywords: formData.keywords,
-    name: formData.name,
-    description: formData.description,
-    target_audience: newTarget,
-    tone: newTone,
-    goals_objectives: formData.goals_objectives,
-    industry: industryValue?.id,
-    persona_type: selectedOption?.id,
   };
 
-  setIsLoading(true);
+  /**
+   * @method [getTonesList] use to get the tones for the persona
+   */
+  const getTonesList = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getTones();
+      setIsLoading(false);
 
-  try {
-    const response = Object.keys(id).length !== 0
-      ? await updatePersonaRecord(id, params)
-      : await savePersonna(params);
+      if (response.data.data.length > 0) {
+        const toneArr = response.data.data.map((item) => ({
+          id: item.id,
+          label: item.name
+        }));
+
+        setTonesList(toneArr);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
+      }
+    }
+  };
+
+  /**
+   * @method [getIndustriesList] to fetch the industries list from the server
+   */
+  const getIndustriesList = async () => {
+    try {
+      const response = await getPersonaIndustryList();
+      setIndustryList(response.data.data);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
+      }
+    }
+  };
+
+  /**
+   * @method [getPersonaTypeList] to fetch the persona types list from the server
+   */
+  const getPersonaTypeList = async () => {
+    try {
+      const response = await getPersonaTypes();
+      setPersonaTypes(response.data.data);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
+      }
+    }
+  };
+
+  /**
+   * @method [handleSubmit] use to submit the form with various information related to persona
+   */
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Extract ids using map and arrow functions
+    const newTarget = audi.map((item) => item.id);
+    const newTone = toneSelect.map((item) => item.id);
+
+    const params = {
+      competitors: formData.competitors,
+      keywords: formData.keywords,
+      name: formData.name,
+      description: formData.description,
+      target_audience: newTarget,
+      tone: newTone,
+      goals_objectives: formData.goals_objectives,
+      industry: industryValue?.id,
+      persona_type: selectedOption?.id
+    };
+
+    setIsLoading(true);
+
+    try {
+      const response = Object.keys(id).length !== 0 ? await updatePersonaRecord(id, params) : await savePersonna(params);
 
       setIsLoading(false);
 
-    if (response.data.status === 'success') {
-      toast(response.data.message, { variant: 'success' });
-      navigate('/persona-profiles');
+      if (response.data.status === 'success') {
+        toast(response.data.message, { variant: 'success' });
+        navigate('/persona-profiles');
+      }
+    } catch (error) {
+      setErrorMessage(error.response?.data?.data);
+      setIsLoading(false);
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
+      }
     }
-  } catch (error) {
-    setErrorMessage(error.response?.data?.data);
-    setIsLoading(false);
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login'); 
-      }
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
-          variant: 'error'
-        });
-      }
-      else {
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
-      }
-    }
-  }
-};
-
+  };
 
   /**
    * @method handleAudienceChange use to change the audience at the point of handle change
@@ -568,9 +550,7 @@ const handleSubmit = async (event) => {
                             }
                             handleAudienceChange(e, i, v);
                           }}
-                          options={
-                            targetAudience.length > 0 ? targetAudience : []
-                          }
+                          options={targetAudience.length > 0 ? targetAudience : []}
                           renderInput={(params) => <TextField {...params} />}
                           isOptionEqualToValue={(option, value) => option.id === value.id && option.label === value.label}
                         />

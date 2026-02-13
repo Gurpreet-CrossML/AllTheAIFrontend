@@ -16,9 +16,9 @@ const UserProfile = () => {
   useEffect(() => {
     const authToken = localStorage.getItem('token');
     if (authToken == null) {
-      navigate("/auth/login")
+      navigate('/auth/login');
     }
-  }, [])
+  }, []);
   const inputRef = useRef(null);
 
   const focusInput = () => {

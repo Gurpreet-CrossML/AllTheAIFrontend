@@ -1,7 +1,6 @@
 // third-party
 import { createSlice } from '@reduxjs/toolkit';
 
-
 const initialState = {
   error: null,
   products: [],
@@ -62,6 +61,4 @@ const slice = createSlice({
   }
 });
 
-
 export default slice.reducer;
-

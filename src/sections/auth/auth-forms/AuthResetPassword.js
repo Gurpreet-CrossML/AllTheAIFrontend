@@ -191,12 +191,14 @@ const AuthResetPassword = () => {
                 )}
                 <Grid item xs={12}>
                   <AnimateButton>
-                    <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained">Reset Password</Button>
+                    <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained">
+                      Reset Password
+                    </Button>
                   </AnimateButton>
                 </Grid>
               </Grid>
             </form>
-          )
+          );
         }}
       </Formik>
     </>

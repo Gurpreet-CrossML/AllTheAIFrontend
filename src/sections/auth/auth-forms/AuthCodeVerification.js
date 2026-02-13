@@ -7,7 +7,6 @@ import { Grid } from '@mui/material';
 // third-party
 import OtpInput from 'react18-input-otp';
 
-
 // ============================|| STATIC - CODE VERIFICATION ||============================ //
 
 const AuthCodeVerification = () => {
@@ -41,7 +40,6 @@ const AuthCodeVerification = () => {
           }}
         />
       </Grid>
-
     </Grid>
   );
 };

@@ -9,7 +9,6 @@ export default function useLocalStorage(key, defaultValue) {
   });
 
   useEffect(() => {
-
     const listener = (e) => {
       if (typeof window !== 'undefined' && e.storageArea === localStorage && e.key === key) {
         setValue(e.newValue ? JSON.parse(e.newValue) : e.newValue);
@@ -23,7 +22,6 @@ export default function useLocalStorage(key, defaultValue) {
   }, [key, defaultValue]);
 
   const setValueInLocalStorage = (newValue) => {
-
     setValue((currentValue) => {
       const result = typeof newValue === 'function' ? newValue(currentValue) : newValue;
       if (typeof window !== 'undefined') localStorage.setItem(key, JSON.stringify(result));

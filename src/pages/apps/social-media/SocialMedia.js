@@ -17,7 +17,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ALLTHEAI } from 'config';
 import MainCard from 'components/MainCard';
 import { useNavigate } from 'react-router';
-import { pickaTemplate, connectToLinkedinSocial, connectToTwitterSocial, connectToFacebookSocial, disconnectSocialMedia } from '_api/social-account';
+import {
+  pickaTemplate,
+  connectToLinkedinSocial,
+  connectToTwitterSocial,
+  connectToFacebookSocial,
+  disconnectSocialMedia
+} from '_api/social-account';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons';
@@ -49,7 +55,6 @@ const SocialMedia = () => {
 
   const matchDownLG = useMediaQuery(theme.breakpoints.down('xl'));
   const downLG = useMediaQuery(theme.breakpoints.down('lg'));
-  
 
   useEffect(() => {
     const authToken = localStorage.getItem('token');
@@ -61,55 +66,52 @@ const SocialMedia = () => {
     }
   }, [navigate]);
 
- /**
- * @method [getTemplatesDetails] use to get the list of templates
- */
-const getTemplatesDetails = async () => {
-  try {
-    setLoader(true);
-    const response = await pickaTemplate();
+  /**
+   * @method [getTemplatesDetails] use to get the list of templates
+   */
+  const getTemplatesDetails = async () => {
+    try {
+      setLoader(true);
+      const response = await pickaTemplate();
 
-    setLoader(false);
+      setLoader(false);
 
-    if (response?.data?.status === 'success') {
-      setTemplates(response.data.data);
-      setLoading(false);
-      setError(null);
-    } else {
-      // setErrorMessage(true);
-      setLoading(false);
-      setError(response?.data?.message);
-      toast(response?.data?.message, {
-        variant: 'error'
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    setLoader(false);
-    setLoading(false);
-
-    setError(error);
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate('/auth/login');
-      } 
-      else if (error.response.status === 429) { 
-        setRateLimit(true);
-        toast(error429, {
+      if (response?.data?.status === 'success') {
+        setTemplates(response.data.data);
+        setLoading(false);
+        setError(null);
+      } else {
+        // setErrorMessage(true);
+        setLoading(false);
+        setError(response?.data?.message);
+        toast(response?.data?.message, {
           variant: 'error'
         });
       }
-      else {
-        setErrorMessage(true);
-        toast(error.response.data.message, {
-          variant: 'error'
-        });
+    } catch (error) {
+      console.log(error);
+      setLoader(false);
+      setLoading(false);
+
+      setError(error);
+      if (error.response) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate('/auth/login');
+        } else if (error.response.status === 429) {
+          setRateLimit(true);
+          toast(error429, {
+            variant: 'error'
+          });
+        } else {
+          setErrorMessage(true);
+          toast(error.response.data.message, {
+            variant: 'error'
+          });
+        }
       }
     }
-  }
-};
-
+  };
 
   /**
    * @method [handleSocailConnect] use to get the list of the templates
@@ -122,7 +124,7 @@ const getTemplatesDetails = async () => {
   const handleConfirmation = async (val) => {
     try {
       setOpen(false);
-  
+
       if (val.social_platform_name === 'linkedin') {
         setLoader(true);
         const response = await connectToLinkedinSocial();
@@ -148,7 +150,7 @@ const getTemplatesDetails = async () => {
       setError(error);
     }
   };
-  
+
   /**
    * @method [handleSocailConnect] use to get the list of the templates
    */
@@ -160,7 +162,7 @@ const getTemplatesDetails = async () => {
   const handleDisconnectConfirmation = async (val) => {
     setOpen(false);
     setLoader(true);
-  
+
     try {
       const response = await disconnectSocialMedia(val);
       // Handle the response as needed
@@ -170,7 +172,7 @@ const getTemplatesDetails = async () => {
       window.location.reload();
     } catch (error) {
       setLoader(false);
-  
+
       if (error.response) {
         if (error.response.status === 401) {
           localStorage.clear();
@@ -186,12 +188,10 @@ const getTemplatesDetails = async () => {
         }
       } else {
         // Handle non-response errors here
-        console.error("Error:", error);
+        console.error('Error:', error);
       }
     }
   };
-  
-  
 
   const handleClose = () => {
     setOpen(false);
@@ -225,8 +225,8 @@ const getTemplatesDetails = async () => {
         </>
       )}
 
-
-      {!loading && !rateLimit &&
+      {!loading &&
+        !rateLimit &&
         !error &&
         templates.map((val, index) => (
           <Grid item key={index} xs={12} sm={6} md={3} lg={3} xl={4}>

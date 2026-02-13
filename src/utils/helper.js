@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid } from '@mui/x-data-grid';
 
 export const CustomDataGrid = styled(DataGrid)`
   && {
@@ -28,9 +28,9 @@ export const CustomDataGrid = styled(DataGrid)`
     /* width: 800px; */
 
     /* Add padding to rows */
-    & .MuiDataGrid-row{
+    & .MuiDataGrid-row {
       padding: 8px; /* Adjust the padding value as desired */
-      border-bottom: 1px solid #bdbdbd29;  /* Remove the border-bottom property to eliminate the bottom border */
+      border-bottom: 1px solid #bdbdbd29; /* Remove the border-bottom property to eliminate the bottom border */
       /* Additional styling if needed */
     }
 
@@ -40,7 +40,7 @@ export const CustomDataGrid = styled(DataGrid)`
     }
 
     & .MuiDataGrid-columnHeaderTitle {
-      font-weight: 1000
+      font-weight: 1000;
     }
 
     /* Add padding to cells */
@@ -56,10 +56,9 @@ export const CustomDataGrid = styled(DataGrid)`
 
     & .MuiDataGrid-columnHeader {
       outline: none !important;
-      background-color: #F8F9FA;
+      background-color: #f8f9fa;
       width: 100%; /* Set the header width to 100% */
     }
-
 
     /* Add padding to the toolbar container */
     & .MuiDataGrid-toolbarContainer {

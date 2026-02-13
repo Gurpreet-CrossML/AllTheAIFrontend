@@ -132,45 +132,45 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
         if (item.children?.length) {
           checkOpenForParent(item.children, menu.id);
         }
-        if (pathname.includes("/templates") && menu.id === "content") {
+        if (pathname.includes('/templates') && menu.id === 'content') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
-        if (pathname.includes("/content-generation") && menu.id === "content") {
+        if (pathname.includes('/content-generation') && menu.id === 'content') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
-        if (pathname.includes("/content-history") && menu.id === "content") {
+        if (pathname.includes('/content-history') && menu.id === 'content') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
-        if (pathname.includes("/content-events") && menu.id === "content") {
+        if (pathname.includes('/content-events') && menu.id === 'content') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
-        if (pathname.includes("/image-template") && menu.id === "generate_images") {
+        if (pathname.includes('/image-template') && menu.id === 'generate_images') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
-        if (pathname.includes("/image_detail") && menu.id === "generate_images") {
+        if (pathname.includes('/image_detail') && menu.id === 'generate_images') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
-        if (pathname.includes("/images-history") && menu.id === "generate_images") {
+        if (pathname.includes('/images-history') && menu.id === 'generate_images') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
-        if (pathname.includes("/generate-image") && menu.id === "generate_images") {
+        if (pathname.includes('/generate-image') && menu.id === 'generate_images') {
           setSelected(menu.id);
           setOpen(true);
-          return
+          return;
         }
       });
     }
@@ -274,11 +274,11 @@ const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, s
                   }),
                   ...(!drawerOpen &&
                     selected === menu.id && {
-                    bgcolor: theme.palette.mode === 'dark' ? 'primary.900' : 'primary.lighter',
-                    '&:hover': {
-                      bgcolor: theme.palette.mode === 'dark' ? 'primary.darker' : 'primary.lighter'
-                    }
-                  })
+                      bgcolor: theme.palette.mode === 'dark' ? 'primary.900' : 'primary.lighter',
+                      '&:hover': {
+                        bgcolor: theme.palette.mode === 'dark' ? 'primary.darker' : 'primary.lighter'
+                      }
+                    })
                 }}
               >
                 {menuIcon}

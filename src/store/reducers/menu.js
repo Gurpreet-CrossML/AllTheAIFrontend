@@ -14,7 +14,6 @@ const initialState = {
 
 // ==============================|| SLICE - MENU ||============================== //
 
-
 const menu = createSlice({
   name: 'menu',
   initialState,
@@ -46,8 +45,7 @@ const menu = createSlice({
     hasError(state, action) {
       state.error = action.payload;
     }
-  },
-
+  }
 });
 
 export default menu.reducer;
