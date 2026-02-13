@@ -1,0 +1,548 @@
+.description-cell {
+    max-height: 3em;
+    /* Adjust this value to limit the number of lines displayed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit the number of lines to display */
+    -webkit-box-orient: vertical;
+}
+
+.fa-youtube {
+    color: #e52d27
+}
+
+.fa-facebook {
+    color: #3b5998
+}
+
+.fa-firefox-browser {
+    color: #e66000
+}
+
+.fa-twitter {
+    color: #55acee
+}
+
+.fa-google {
+    color: #4285f4
+}
+
+.fa-linkedin {
+    color: #0976b4
+}
+
+.fa-copyright {
+    color: #cc0f16;
+}
+
+.fa-instagram {
+    color: #cd486b 
+}
+
+.fa-envelope {
+    color: #3b60c4;
+}
+
+.fa-bullseye {
+    color: #c71610;
+}
+
+.fa-video {
+    color: #8B5CF4;
+}
+
+
+.fa-adn {
+    color: #4A484C;
+}
+
+.fa-amazon {
+    color: #ff9900;
+}
+
+.fa-android {
+    color: #a4c639;
+}
+
+.fa-angellist {
+    color: #000;
+}
+
+.fa-apple {
+    color: #979797;
+}
+
+.fa-behance {
+    color: #1769ff;
+}
+
+.fa-behance-square {
+    color: #1769ff;
+}
+
+.fa-bitbucket {
+    color: #205081;
+}
+
+.fa-bitbucket-square {
+    color: #205081;
+}
+
+.fa-bitcoin {
+    color: #ee9209;
+}
+
+.fa-black-tie {
+    color: #222;
+}
+
+.fa-btc {
+    color: #ee9209;
+}
+
+.fa-buysellads {
+    color: #c90100;
+}
+
+.fa-cc-amex {
+    color: #007bc1;
+}
+
+.fa-cc-diners-club {
+    color: #004A97;
+}
+
+.fa-cc-discover {
+    color: #f68121;
+}
+
+.fa-cc-jcb {
+    color: #003A8F;
+}
+
+.fa-cc-mastercard {
+    color: #0a3a82;
+}
+
+.fa-cc-paypal {
+    color: #253b80;
+}
+
+.fa-cc-stripe {
+    color: #00afe1;
+}
+
+.fa-cc-visa {
+    color: #0157a2;
+}
+
+.fa-chrome {
+    color: #4587F3;
+}
+
+.fa-codepen {
+    color: #000;
+}
+
+.fa-connectdevelop {
+    color: #391448;
+}
+
+.fa-contao {
+    color: #eb8623;
+}
+
+.fa-creative-commons {
+    color: #231f20;
+}
+
+.fa-css3 {
+    color: #1680C0;
+}
+
+.fa-dashcube {
+    color: #7f7f7f;
+}
+
+.fa-delicious {
+    color: #3399ff;
+}
+
+.fa-deviantart {
+    color: #4e6252;
+}
+
+.fa-digg {
+    color: #000;
+}
+
+.fa-dribbble {
+    color: #444444;
+}
+
+.fa-dropbox {
+    color: #007ee5;
+}
+
+.fa-drupal {
+    color: #0077c0;
+}
+
+.fa-empire {
+    color: #000;
+}
+
+.fa-expeditedssl {
+    color: #343433;
+}
+
+.fa-facebook-official,
+.fa-facebook-square,
+.fa-facebook {
+    color: #3b5998;
+}
+
+.fa-firefox {
+    color: #e66000;
+}
+
+.fa-flickr {
+    color: #ff0084;
+}
+
+.fa-fonticons {
+    color: #1C1E29;
+}
+
+.fa-forumbee {
+    color: #83ad13;
+}
+
+.fa-foursquare {
+    color: #0072b1;
+}
+
+.fa-ge {
+    color: #000;
+}
+
+.fa-get-pocket {
+    color: #d3505a;
+}
+
+.fa-gg-circle,
+.fa-gg {
+    color: #000;
+}
+
+.fa-git {
+    color: #333;
+}
+
+.fa-git-square {
+    color: #333;
+}
+
+.fa-git {
+    color: #333;
+}
+
+.fa-github-alt,
+.fa-github-square,
+.fa-github {
+    color: #333;
+}
+
+.fa-gittip {
+    color: #663300;
+}
+
+.fa-google-plus-square,
+.fa-google-plus {
+    color: #dd4b39;
+}
+
+.fa-google-wallet,
+.fa-google {
+    color: #4285f4;
+}
+
+.fa-hacker-news {
+    color: #ff6600;
+}
+
+.fa-houzz {
+    color: #7ac142;
+}
+
+.fa-html5 {
+    color: #e34f26;
+}
+
+.fa-instagram {
+    color:  #cd486b ;
+}
+
+.fa-internet-explorer {
+    color: #1EBBEE;
+}
+
+.fa-ioxhost {
+    color: #faa729;
+}
+
+.fa-joomla {
+    color: #142849;
+}
+
+.fa-jsfiddle {
+    color: #4679BD;
+}
+
+.fa-lastfm-square,
+.fa-lastfm {
+    color: #c3000d;
+}
+
+.fa-leanpub {
+    color: #0c0c0c;
+}
+
+.fa-linkedin-square,
+.fa-linkedin {
+    color: #0976b4;
+}
+
+.fa-linux {
+    color: #333333;
+}
+
+.fa-maxcdn {
+    color: #FF6600;
+}
+
+.fa-meanpath {
+    color: #538ed7;
+}
+
+.fa-medium {
+    color: #000;
+}
+
+.fa-odnoklassniki-square,
+.fa-odnoklassniki {
+    color: #ed812b;
+}
+
+.fa-opencart {
+    color: #2AC2EF;
+}
+
+.fa-openid {
+    color: #F78C40;
+}
+
+.fa-opera {
+    color: #cc0f16;
+}
+
+.fa-optin-monster {
+    color: #83c11f;
+}
+
+.fa-pagelines {
+    color: #000;
+}
+
+.fa-paypal {
+    color: #253b80;
+}
+
+.fa-pied-piper-alt,
+.fa-pied-piper-square,
+.fa-pied-piper {
+    color: #2f9f46;
+}
+
+.fa-pinterest-p,
+.fa-pinterest-square,
+.fa-pinterest {
+    color: #cc2127;
+}
+
+.fa-qq {
+    color: #000;
+}
+
+.fa-ra {
+    color: #000;
+}
+
+.fa-rebel {
+    color: #000;
+}
+
+.fa-reddit-square,
+.fa-reddit {
+    color: #ff4500;
+}
+
+.fa-renren {
+    color: #005EAC;
+}
+
+.fa-safari {
+    color: #1B88CA;
+}
+
+.fa-sellsy {
+    color: #1f78b9;
+}
+
+.fa-share-alt-square,
+.fa-share-alt {
+    color: #01bf01;
+}
+
+.fa-shirtsinbulk {
+    color: #dd3a26;
+}
+
+.fa-simplybuilt {
+    color: #000;
+}
+
+.fa-skyatlas {
+    color: #00adbb;
+}
+
+.fa-skype {
+    color: #00aff0;
+}
+
+.fa-slack {
+    color: #0f7965;
+}
+
+.fa-slideshare {
+    color: #e98325;
+}
+
+.fa-soundcloud {
+    color: #f80;
+}
+
+.fa-spotify {
+    color: #7ab800;
+}
+
+.fa-stack-exchange {
+    color: #000;
+}
+
+.fa-stack-overflow {
+    color: #fe7a15;
+}
+
+.fa-steam-square,
+.fa-steam {
+    color: #0B0B0B;
+}
+
+.fa-stumbleupon-circle,
+.fa-stumbleupon {
+    color: #eb4924;
+}
+
+.fa-tencent-weibo {
+    color: #74AF2C;
+}
+
+.fa-trello {
+    color: #256a92;
+}
+
+.fa-tripadvisor {
+    color: #589442;
+}
+
+.fa-tumblr-square,
+.fa-tumblr {
+    color: #35465c;
+}
+
+.fa-twitch {
+    color: #6441a5;
+}
+
+.fa-twitter-square,
+.fa-twitter {
+    color: #55acee;
+}
+
+.fa-viacoin {
+    color: #333;
+}
+
+.fa-vimeo-square,
+.fa-vimeo {
+    color: #1ab7ea;
+}
+
+.fa-vine {
+    color: #00b488;
+}
+
+.fa-vk {
+    color: #45668e;
+}
+
+.fa-wechat {
+    color: #93d034;
+}
+
+.fa-weibo {
+    color: #E71D34;
+}
+
+.fa-weixin {
+    color: #93d034;
+}
+
+.fa-wikipedia-w {
+    color: #000;
+}
+
+.fa-windows {
+    color: #00bcf2;
+}
+
+.fa-wordpress {
+    color: #21759b;
+}
+
+.fa-xing-square,
+.fa-xing {
+    color: #026466;
+}
+
+.fa-y-combinator,
+.fa-yc {
+    color: #F0652F;
+}
+
+.fa-yahoo {
+    color: #400191;
+}
+
+.fa-yelp {
+    color: #af0606;
+}
+
+.fa-youtube-play,
+.fa-youtube-square,
+.fa-youtube {
+    color: #e52d27;
+}

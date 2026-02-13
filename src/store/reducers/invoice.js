@@ -1,0 +1,107 @@
+
+
+
+// third-party
+import { createSlice } from '@reduxjs/toolkit';
+
+const countries = [
+  { code: 'US', label: 'United States Dollar', currency: 'Dollar' },
+  { code: 'GB', label: 'United Kingdom Pound', currency: 'Pound' },
+  { code: 'IN', label: 'India Rupee', currency: 'Rupee' },
+  { code: 'JP', label: 'Japan Yun', currency: 'Yun' }
+];
+
+const initialState = {
+  isOpen: false,
+  isCustomerOpen: false,
+  open: false,
+  country: countries[2],
+  countries: countries,
+  lists: [],
+  list: null,
+  error: null,
+  alertPopup: false
+};
+
+// ==============================|| INVOICE - SLICE ||============================== //
+
+const invoice = createSlice({
+  name: 'invoice',
+  initialState,
+  reducers: {
+    // review invoice popup
+    reviewInvoicePopup(state, action) {
+      state.isOpen = action.payload.isOpen;
+    },
+
+    // is customer open
+    customerPopup(state, action) {
+      state.isCustomerOpen = action.payload.isCustomerOpen;
+    },
+
+    // handler customer form popup
+    toggleCustomerPopup(state, action) {
+      state.open = action.payload.open;
+    },
+
+    // handler customer form popup
+    selectCountry(state, action) {
+      state.country = action.payload.country;
+    },
+
+    hasError(state, action) {
+      state.error = action.payload.error;
+    },
+
+    // get all invoice list
+    getLists(state, action) {
+      state.lists = action.payload;
+    },
+
+    // get invoice details
+    getSingleList(state, action) {
+      state.list = action.payload;
+    },
+
+    // create invoice
+    createInvoice(state, action) {
+      let newEvent = action.payload.list;
+      newEvent = {
+        ...newEvent,
+        id: state.lists.length + 1
+      };
+      state.lists = [...state.lists, newEvent];
+    },
+
+    // update invoice
+    UpdateInvoice(state, action) {
+      const { NewInvoice } = action.payload;
+      const InvoiceUpdate = state.lists.map((item) => {
+        if (item.id === NewInvoice.id) {
+          return NewInvoice;
+        }
+        return item;
+      });
+      state.lists = InvoiceUpdate;
+    },
+
+    // delete invoice
+    deleteInvoice(state, action) {
+      const { invoiceId } = action.payload;
+      const deleteInvoice = state.lists.filter((list) => list.id !== invoiceId);
+      state.lists = deleteInvoice;
+    },
+
+    //alert popup
+    alertPopupToggle(state, action) {
+      state.alertPopup = action.payload.alertToggle;
+    }
+  }
+});
+
+export default invoice.reducer;
+
+export const { reviewInvoicePopup, customerPopup, toggleCustomerPopup, selectCountry, getLists, alertPopupToggle } = invoice.actions;
+
+
+

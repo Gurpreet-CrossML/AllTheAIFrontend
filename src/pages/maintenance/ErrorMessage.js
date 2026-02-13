@@ -1,0 +1,1 @@
+export const error429 = 'Too many requests. Please wait a moment and try again.';
