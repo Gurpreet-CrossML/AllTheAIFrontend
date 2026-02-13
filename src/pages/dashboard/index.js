@@ -156,7 +156,7 @@ const Dashboard = () => {
       navigate('/auth/login');
     }
     document.title = `Dashboard | ${ALLTHEAI}`;
-    getTransactionHistory();
+    // getTransactionHistory();
     getActivePlan();
     setTimeout(() => {
       getContentHistory();
