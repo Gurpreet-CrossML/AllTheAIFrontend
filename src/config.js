@@ -20,7 +20,7 @@ export const ALLTHEAI = "contentIQ";
 export const BETA_URL = "https://app.allthe.ai/"
 export const LOCAL_URL = 'http://localhost:3001/'
 // export const BASE_URL = 'https://api-dev.allthe.ai/'
-export const BASE_URL = 'http://192.168.2.47:8000/'
+export const BASE_URL = 'https://contentiq.crossml.in/'
 
 export const authToken = localStorage.getItem('token');
 
